@@ -69,6 +69,13 @@ class Frutero:
     def meter_fruta(self, fruta):
         self.frutas.append(fruta)
 
+    def fruta_en_frutero(self, fruta):
+        tipoFruta = fruta.tipo
+        tamanioFruta = fruta.tamanio
+        for fruta_en_frutero in  self.frutas:
+            if fruta_en_frutero.tipo == tipoFruta and fruta_en_frutero.tamanio == tamanioFruta:
+                return True
+        return False
 
 # main ------------------------------------------------
 print("Here we go ...")
@@ -80,4 +87,19 @@ frutero = Frutero()
 frutero.meter_fruta(manzana1)
 frutero.meter_fruta(manzana2)
 frutero.meter_fruta(pera1)
-print("Frutero:\n", frutero)
+print("Frutero:", frutero)
+
+print("A ver si hay una", Manzana(medio))
+esta = frutero.fruta_en_frutero(Manzana(medio))
+if esta:
+    print("Hay.")
+else:
+    print("No hay.")
+
+print("A ver si hay un", Aguacate(grande))
+esta = frutero.fruta_en_frutero(Aguacate(grande))
+if esta:
+    print("Hay.")
+else:
+    print("No hay.")
+
