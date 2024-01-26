@@ -63,7 +63,7 @@ class Frutero:
     def __str__(self):
         contenido = ""
         for fruta in self.frutas:
-            contenido += " " + str(fruta)
+            contenido += str(fruta) + "\n"
         return contenido
 
     def meter_fruta(self, fruta):
@@ -80,3 +80,4 @@ frutero = Frutero()
 frutero.meter_fruta(manzana1)
 frutero.meter_fruta(manzana2)
 frutero.meter_fruta(pera1)
+print("Frutero:", frutero)
