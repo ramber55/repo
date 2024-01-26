@@ -77,6 +77,7 @@ class Frutero:
                 return True
         return False
 
+
 # main ------------------------------------------------
 print("Here we go ...")
 manzana1 = Manzana(medio)
