@@ -1,1 +1,1 @@
-Folder for the firts example
+Folder for the first example
