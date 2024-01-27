@@ -6,7 +6,7 @@ platano = 2
 aguacate = 3
 mandarina = 4
 # Tamaño
-tamanioFruta = ("pequeño", "medio", "grande")
+tamanio_fruta = ("pequeño", "medio", "grande")
 pequenio = 0
 medio = 1
 grande = 2
@@ -22,7 +22,7 @@ class Fruta:
 
     def __str__(self):
         txt = "{} de tamaño {}"
-        return txt.format(tiposFruta[self.tipo], tamanioFruta[self.tamanio])
+        return txt.format(tiposFruta[self.tipo], tamanio_fruta[self.tamanio])
 
 
 class Manzana (Fruta):
@@ -70,18 +70,18 @@ class Frutero:
         self.frutas.append(fruta)
 
     def fruta_en_frutero(self, fruta):
-        tipoFruta = fruta.tipo
-        tamanioFruta = fruta.tamanio
-        for fruta_en_frutero in  self.frutas:
-            if fruta_en_frutero.tipo == tipoFruta and fruta_en_frutero.tamanio == tamanioFruta:
+        tipo_fruta = fruta.tipo
+        tamanio_fruta = fruta.tamanio
+        for fruta_en_frutero in self.frutas:
+            if fruta_en_frutero.tipo == tipo_fruta and fruta_en_frutero.tamanio == tamanio_fruta:
                 return True
         return False
 
     def sacar_fruta(self, fruta):
-        tipoFruta = fruta.tipo
-        tamanioFruta = fruta.tamanio
+        tipo_fruta = fruta.tipo
+        tamanio_fruta = fruta.tamanio
         for fruta_en_frutero in  self.frutas:
-            if fruta_en_frutero.tipo == tipoFruta and fruta_en_frutero.tamanio == tamanioFruta:
+            if fruta_en_frutero.tipo == tipo_fruta and fruta_en_frutero.tamanio == tamanio_fruta:
                 return True
         return False
 
