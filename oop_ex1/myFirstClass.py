@@ -80,7 +80,7 @@ class Frutero:
     def sacar_fruta(self, fruta):
         tipo_fruta = fruta.tipo
         tamanio_fruta = fruta.tamanio
-        for fruta_en_frutero in  self.frutas:
+        for fruta_en_frutero in self.frutas:
             if fruta_en_frutero.tipo == tipo_fruta and fruta_en_frutero.tamanio == tamanio_fruta:
                 return True
         return False
@@ -111,4 +111,3 @@ if esta:
     print("Hay.")
 else:
     print("No hay.")
-
