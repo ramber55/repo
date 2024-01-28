@@ -146,6 +146,7 @@ fruta10 = Aguacate(pequenio)
 fruta11 = Aguacate(pequenio)
 fruta12 = Pera(grande)
 
+# __eq__
 if fruta10 == fruta11:
     print(fruta10, "y", fruta11, "son iguales")
 else:
