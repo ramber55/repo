@@ -24,6 +24,9 @@ class Fruta:
         txt = "{} de tamaño {}"
         return txt.format(tiposFruta[self.tipo], tamanio_fruta[self.tamanio])
 
+    def __eq__(self, other):
+        return self.tipo == other.tipo and self.tamanio == other.tamanio
+
 
 class Manzana (Fruta):
 
@@ -85,6 +88,12 @@ class Frutero:
                 return True
         return False
 
+    def __iter__(self):
+        return iter(self.frutas)
+
+    def __len__(self):
+        return len(self.frutas)
+
 
 # main ------------------------------------------------
 print("Here we go ...")
@@ -111,3 +120,29 @@ if esta:
     print("Hay.")
 else:
     print("No hay.")
+
+for fruta in frutero:
+    print("Fruta", fruta)
+
+fruta10 = Aguacate(pequenio)
+fruta11 = Aguacate(pequenio)
+fruta12 = Pera(grande)
+
+if fruta10 == fruta11:
+    print(fruta10, "y", fruta11, "son iguales")
+else:
+    print(fruta10, "y", fruta11, "son diferentes")
+
+if fruta10 == fruta12:
+    print(fruta10, "y", fruta12, "son iguales")
+else:
+    print(fruta10, "y", fruta12, "son diferentes")
+
+print("El frutero tiene", len(frutero), "piezas")
+
+frutero.meter_fruta(fruta10)
+frutero.meter_fruta(fruta11)
+frutero.meter_fruta(fruta12)
+print("El frutero ahora tiene", len(frutero), "piezas")
+for fruta in frutero:
+    print("Fruta", fruta)
