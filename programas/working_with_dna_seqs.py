@@ -12,3 +12,4 @@ print("DNA file:", filename)
 print("The first 20 bases are:")
 print(dna_chain[:20])
 
+print("Gene ADA ->", seq_len(dna_chain))
