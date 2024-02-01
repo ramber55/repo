@@ -38,7 +38,7 @@ class DNA_SEQUENCE:
         return len(self.body)
 
     def __str__(self):
-        return f"DNA Sequence Header: {self.header}\nDNA #Bases:  {len(self.body)}\nDNA Sequence Body:   {self.body}"
+        return f"DNA Sequence Header:{self.header}\nDNA #Bases:\t\t\t{len(self.body)}\nDNA Sequence Body:\t{self.body}"
 
     def get_header(self):
         return self.header
