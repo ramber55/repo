@@ -24,3 +24,30 @@ def seq_read_fasta(filename):
 def seq_len(seq):
     return len(seq)
 
+
+class DNA_SEQUENCE:
+
+    def __init__(self):
+        self.header = ""
+        self.body = ""
+
+    def read_seq_from_file (self, filename):
+        self.header, self.body = seq_read_fasta(filename)
+
+    def __len__(self):
+        return len(self.body)
+
+    def __str__(self):
+        return f"DNA Sequence Header: {self.header}\nDNA #Bases:  {len(self.body)}\nDNA Sequence Body:   {self.body}"
+
+    def get_header(self):
+        return self.header
+
+    def get_body(self):
+        return self.body
+
+    def set_header(self, header):
+        self.header = header
+
+    def set_body(self, body):
+        self.body = body
