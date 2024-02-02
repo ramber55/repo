@@ -1,11 +1,13 @@
+from pathlib import Path
 from dna_seq_mgmt import *
 
-DNA_REPOSITORY = "../recursos/"
+DNA_REPOSITORY = Path.cwd().parent / "recursos"
 filename = "Homo_sapiens_ADA_sequence.fa"
+ADA_full_filename = DNA_REPOSITORY / filename
 
 ADA_sequence = DNA_SEQUENCE()
 
-ADA_sequence.read_seq_from_file(DNA_REPOSITORY + filename)
+ADA_sequence.read_seq_from_file(ADA_full_filename)
 
 print("DNA Header:", ADA_sequence.get_header())
 print("---------------------------------------------------------------")

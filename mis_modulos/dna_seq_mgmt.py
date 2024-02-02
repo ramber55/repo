@@ -1,8 +1,12 @@
+from pathlib import Path
+
 # DNA Sequence Management functions, classes, ...
-def seq_read_fasta(filename):
+
+
+def seq_read_fasta(full_filename):
     try:
 
-        with open(filename, "r", encoding="latin-1") as f:
+        with full_filename.open("r", encoding="latin-1") as f:
             header = next(f).replace("\n", "")
             seq = ""
             for line in f:
@@ -12,10 +16,10 @@ def seq_read_fasta(filename):
         f.close()
 
     except FileNotFoundError:
-        print("ERROR: file", filename, "not found. Exiting.")
+        print("ERROR: file", full_filename, "not found. Exiting.")
         exit()
     except PermissionError:
-        print("ERROR: No permissions for file", filename, "Exiting.")
+        print("ERROR: No permissions for file", full_filename, "Exiting.")
         exit()
 
     return header, seq
