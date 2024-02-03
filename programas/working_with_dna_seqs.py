@@ -27,3 +27,4 @@ print("Complementary Seq   :", ADA_sequence.seq_complement())
 
 print("ADA Bases report:")
 pprint(ADA_sequence.seq_count())
+print("Most Frequent base:", ADA_sequence.get_most_frequent_base())

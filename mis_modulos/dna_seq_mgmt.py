@@ -73,6 +73,16 @@ class DNA_SEQUENCE:
                 base_count[base] = nb_of_occurrences
         return base_count
 
+    def get_most_frequent_base(self):
+        base_count = self.seq_count()
+        most_frequent_base = ""
+        nb_of_most_frequent_base = 0
+        for base, nb_of_occurrences in base_count.items():
+            if nb_of_occurrences > nb_of_most_frequent_base:
+                most_frequent_base = base
+                nb_of_most_frequent_base = nb_of_occurrences
+        return most_frequent_base
+
     def seq_reverse(self):
         return self.body[::-1]
 
