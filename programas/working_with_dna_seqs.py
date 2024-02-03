@@ -20,3 +20,7 @@ print("Gene ADA ->", len(ADA_sequence))
 
 print(ADA_sequence)
 
+print("DNA           Seq   :", ADA_sequence.get_body())
+print("Complementary Seq   :", ADA_sequence.seq_complement())
+
+
