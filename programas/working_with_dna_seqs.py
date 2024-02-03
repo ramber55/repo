@@ -1,5 +1,7 @@
 from pathlib import Path
 from dna_seq_mgmt import *
+from pprint import pprint
+
 
 DNA_REPOSITORY = Path.cwd().parent / "recursos"
 filename = "Homo_sapiens_ADA_sequence.fa"
@@ -23,4 +25,5 @@ print(ADA_sequence)
 print("DNA           Seq   :", ADA_sequence.get_body())
 print("Complementary Seq   :", ADA_sequence.seq_complement())
 
-
+print("ADA Bases report:")
+pprint(ADA_sequence.seq_count())

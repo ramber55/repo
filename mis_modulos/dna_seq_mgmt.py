@@ -2,6 +2,7 @@ from pathlib import Path
 
 # DNA Sequence Management functions, classes, ...
 
+DNA_Bases = ["A", "C", "G", "T"]
 Complementary_Bases = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
 
@@ -60,6 +61,17 @@ class DNA_SEQUENCE:
 
     def set_body(self, body):
         self.body = body
+
+    def seq_count_base(self, base):
+        return self.body.count(base)
+
+    def seq_count(self):
+        base_count = {}
+        for base in DNA_Bases:
+            nb_of_occurrences = self.seq_count_base(base)
+            if nb_of_occurrences != 0:
+                base_count[base] = nb_of_occurrences
+        return base_count
 
     def seq_reverse(self):
         return self.body[::-1]
