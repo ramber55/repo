@@ -14,8 +14,8 @@ RNU6_269P_full_filename = DNA_REPOSITORY / RNU6_269P_filename
 ADA_sequence = DNA_SEQUENCE()
 ADA_sequence.read_seq_from_file(ADA_full_filename)
 
-RNU6_269P_sequende = DNA_SEQUENCE()
-RNU6_269P_sequende.read_seq_from_file(RNU6_269P_full_filename)
+RNU6_269P_sequence = DNA_SEQUENCE()
+RNU6_269P_sequence.read_seq_from_file(RNU6_269P_full_filename)
 
 print("DNA Header:", ADA_sequence.get_header())
 print("---------------------------------------------------------------")
@@ -35,3 +35,7 @@ print("Complementary Seq   :", ADA_sequence.seq_complement())
 print("ADA Bases report:")
 pprint(ADA_sequence.seq_count())
 print("Most Frequent base:", ADA_sequence.get_most_frequent_base())
+
+print("RNU6_269P Bases report:")
+pprint(RNU6_269P_sequence.seq_count())
+print("Most Frequent base:", RNU6_269P_sequence.get_most_frequent_base())
