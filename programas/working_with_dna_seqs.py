@@ -3,7 +3,7 @@ from dna_seq_mgmt import *
 from pprint import pprint
 
 
-DNA_REPOSITORY = Path.cwd().parent / "recursos"
+DNA_REPOSITORY = Path.cwd().parent / "resources"
 
 ADA_filename = "Homo_sapiens_ADA_sequence.fa"
 ADA_full_filename = DNA_REPOSITORY / ADA_filename
