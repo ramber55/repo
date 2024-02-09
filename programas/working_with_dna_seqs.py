@@ -39,3 +39,6 @@ print("Most Frequent base:", ADA_sequence.get_most_frequent_base())
 print("RNU6_269P Bases report:")
 pprint(RNU6_269P_sequence.seq_count())
 print("Most Frequent base:", RNU6_269P_sequence.get_most_frequent_base())
+
+seq1 = DNA_SEQUENCE("", "ACM")
+print("Another sequence:", seq1)

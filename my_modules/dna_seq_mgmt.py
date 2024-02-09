@@ -1,4 +1,5 @@
 from pathlib import Path
+import termcolor
 
 # DNA Sequence Management functions, classes, ...
 
@@ -32,14 +33,28 @@ def seq_len(seq):
     return len(seq)
 
 
+def is_dna_seq_ok (dna_seq):
+    for base in dna_seq:
+        if base not in DNA_Bases:
+            return False
+    return True
+
+
 class DNA_SEQUENCE:
 
-    def __init__(self):
-        self.header = ""
-        self.body = ""
+    def __init__(self, header=None, body=None):
+        self.header = header
+        self.body = body
+        if body is not None:
+            if not is_dna_seq_ok(body):
+                self.body = "ERROR"
+                termcolor.cprint("DNA_SEQUENCE::constructor ERROR: Incorrect Sequence Detected!", "green")
 
     def read_seq_from_file(self, filename):
         self.header, self.body = seq_read_fasta(filename)
+        if not is_dna_seq_ok(self.body):
+            self.body = "ERROR"
+            termcolor.cprint("DNA_SEQUENCE::read_seq_from_file ERROR: Incorrect Sequence Detected!", "green")
 
     def __len__(self):
         return len(self.body)
@@ -61,6 +76,10 @@ class DNA_SEQUENCE:
 
     def set_body(self, body):
         self.body = body
+        if body is not None:
+            if not is_dna_seq_ok(body):
+                self.body = "ERROR"
+                termcolor.cprint("DNA_SEQUENCE::set_body ERROR: Incorrect Sequence Detected!", "yellow")
 
     def seq_count_base(self, base):
         return self.body.count(base)
