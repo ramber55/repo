@@ -52,20 +52,21 @@ def generate_seqs(pattern, number):
         return ["ERROR"]
 
 
-
-
-
-
-
 class DNA_SEQUENCE:
 
     def __init__(self, header=None, body=None):
-        self.header = header
-        self.body = body
-        if body is not None:
-            if not is_dna_seq_ok(body):
-                self.body = "ERROR"
-                termcolor.cprint("DNA_SEQUENCE::constructor ERROR: Incorrect Sequence Detected!", "green")
+        if header is None:
+            self.header = "NO HEADER"
+        else:
+            self.header = header
+
+        if body is None:
+            self.body = "NULL"
+        elif is_dna_seq_ok(body):
+            self.body = body
+        else:
+            self.body = "ERROR"
+            termcolor.cprint("DNA_SEQUENCE::constructor ERROR: Incorrect Sequence Detected!", "green")
 
     def read_seq_from_file(self, filename):
         self.header, self.body = seq_read_fasta(filename)
@@ -89,14 +90,20 @@ class DNA_SEQUENCE:
         return self.body
 
     def set_header(self, header):
-        self.header = header
+        if header is None:
+            self.header = "NO HEADER"
+        else:
+            self.header = header
 
     def set_body(self, body):
-        self.body = body
-        if body is not None:
-            if not is_dna_seq_ok(body):
-                self.body = "ERROR"
-                termcolor.cprint("DNA_SEQUENCE::set_body ERROR: Incorrect Sequence Detected!", "yellow")
+        if body is None:
+            self.body = "NULL"
+        elif is_dna_seq_ok(body):
+            self.body = body
+        else:
+            self.body = "ERROR"
+            termcolor.cprint("DNA_SEQUENCE::set_body ERROR: Incorrect Sequence Detected!", "yellow")
+
 
     def seq_count_base(self, base):
         return self.body.count(base)
