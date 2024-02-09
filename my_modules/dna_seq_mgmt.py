@@ -75,10 +75,13 @@ class DNA_SEQUENCE:
             termcolor.cprint("DNA_SEQUENCE::read_seq_from_file ERROR: Incorrect Sequence Detected!", "green")
 
     def __len__(self):
-        return len(self.body)
+        if self.body == "NULL" or self.body == "ERROR":
+            return 0
+        else:
+            return len(self.body)
 
     def __str__(self):
-        return f"DNA Sequence Header:{self.header}\nDNA #Bases:\t\t\t{len(self.body)}\nDNA Sequence Body:\t{self.body}"
+        return f"DNA Sequence Header:{self.header}\nDNA #Bases:\t\t\t{len(self)}\nDNA Sequence Body:\t{self.body}"
 
     def __eq__(self, other):
         return self.body == other.get_body()
@@ -103,7 +106,6 @@ class DNA_SEQUENCE:
         else:
             self.body = "ERROR"
             termcolor.cprint("DNA_SEQUENCE::set_body ERROR: Incorrect Sequence Detected!", "yellow")
-
 
     def seq_count_base(self, base):
         return self.body.count(base)
