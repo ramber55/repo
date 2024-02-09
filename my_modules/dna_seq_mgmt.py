@@ -33,11 +33,28 @@ def seq_len(seq):
     return len(seq)
 
 
-def is_dna_seq_ok (dna_seq):
+def is_dna_seq_ok(dna_seq):
     for base in dna_seq:
         if base not in DNA_Bases:
             return False
     return True
+
+
+def generate_seqs(pattern, number):
+    if is_dna_seq_ok(pattern) and number >= 1:
+        seq_list = []
+        aux_string = str(pattern)
+        for i in range(number):
+            seq_list.append(aux_string)
+            aux_string += pattern
+        return seq_list
+    else:
+        return ["ERROR"]
+
+
+
+
+
 
 
 class DNA_SEQUENCE:

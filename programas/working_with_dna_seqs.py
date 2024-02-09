@@ -42,3 +42,7 @@ print("Most Frequent base:", RNU6_269P_sequence.get_most_frequent_base())
 
 seq1 = DNA_SEQUENCE("", "ACM")
 print("Another sequence:", seq1)
+
+seq_lisr1 = generate_seqs("ACG", 4)
+pprint(seq_lisr1)
+
