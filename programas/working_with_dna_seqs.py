@@ -50,7 +50,11 @@ seq2 = DNA_SEQUENCE(None, "BUAAAA")
 seq3 = DNA_SEQUENCE(None, None)
 print("Sequences:")
 print(f"SEQ1:\n{seq1}")
+pprint(seq1.seq_count())
 print(f"SEQ2:\n{seq2}")
+pprint(seq2.seq_count())
 print(f"SEQ3:\n{seq3}")
+pprint(seq3.seq_count())
+
 
 
