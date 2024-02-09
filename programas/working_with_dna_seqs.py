@@ -48,13 +48,18 @@ print("\n\n======================\n\n")
 seq1 = DNA_SEQUENCE("CORRECT SEQ HDR", "ACGTAAAAG")
 seq2 = DNA_SEQUENCE(None, "BUAAAA")
 seq3 = DNA_SEQUENCE(None, None)
+
+list_of_sequences = [seq1, seq2, seq3]
 print("Sequences:")
-print(f"SEQ1:\n{seq1}")
-pprint(seq1.seq_count())
-print(f"SEQ2:\n{seq2}")
-pprint(seq2.seq_count())
-print(f"SEQ3:\n{seq3}")
-pprint(seq3.seq_count())
+nb_of_sequence = 1
+for dna_seq in list_of_sequences:
+    print("------------")
+    print("SEQUENCE", nb_of_sequence)
+    print(dna_seq)
+    print("Bases: ", str(dna_seq.seq_count()))
+    print("Reverse:", dna_seq.seq_reverse())
+    print("Complement:", dna_seq.seq_complement())
+    nb_of_sequence += 1
 
 
 

@@ -113,9 +113,7 @@ class DNA_SEQUENCE:
     def seq_count(self):
         base_count = {}
         for base in DNA_Bases:
-            nb_of_occurrences = self.seq_count_base(base)
-            if nb_of_occurrences != 0:
-                base_count[base] = nb_of_occurrences
+            base_count[base] = self.seq_count_base(base)
         return base_count
 
     def get_most_frequent_base(self):
@@ -129,10 +127,15 @@ class DNA_SEQUENCE:
         return most_frequent_base
 
     def seq_reverse(self):
+        if self.body == "NULL" or self.body == "ERROR":
+            return self.body
         return self.body[::-1]
 
     def seq_complement(self):
-        complementary_chain = ""
-        for base in self.body:
-            complementary_chain += Complementary_Bases[base]
-        return complementary_chain
+        if self.body == "NULL" or self.body == "ERROR":
+            return self.body
+        else:
+            complementary_chain = ""
+            for base in self.body:
+                complementary_chain += Complementary_Bases[base]
+            return complementary_chain
