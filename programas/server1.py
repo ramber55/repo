@@ -22,6 +22,9 @@ try:
     while True:
         # accept connections from outside
         print("Waiting for connections at {}, {} ".format(IP, PORT))
+        # When a connection is created, a new socket (called clientsocket) is created to
+        # handle the just established connection! (meanwhile our serverconnection is still
+        # waiting for new connection requests):
         (clientsocket, address) = serversocket.accept()
 
         # Another connection!e
