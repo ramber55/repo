@@ -2,7 +2,9 @@ import socket
 
 # Configure the Server's IP and PORT
 PORT = 999
-IP = "127.0.0.1"  # This local host. With this IP, the socket is visible just locally
+IP = "127.0.0.1"  # This local host. With this IP, the socket is visible just locally.
+# On the other hand, setting IP this way, in most platforms make to
+# bypass some protocol stack layers.
 
 MAX_OPEN_REQUESTS = 5
 
@@ -15,7 +17,10 @@ print("hostname:", socket.gethostname())
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     serversocket.bind((IP, PORT))
-    # become a server socket
+    # become a server socket. server socket mission is just listening incoming connection
+    # requests. It is not used to send or receive data. Once a connection request is
+    # accepted (see bellow) a client socket is created for the message interchange with
+    # the other side.
     # MAX_OPEN_REQUESTS connect requests before refusing outside connections
     serversocket.listen(MAX_OPEN_REQUESTS)
 
