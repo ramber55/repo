@@ -1,12 +1,15 @@
 import socket
 
 # Configure the Server's IP and PORT
-PORT = 8081
-IP = "127.0.0.1"  # This local host
+PORT = 999
+IP = "127.0.0.1"  # This local host. With this IP, the socket is visible just locally
+
 MAX_OPEN_REQUESTS = 5
 
 # Counting the number of connections
 number_con = 0
+
+print("hostname:", socket.gethostname())
 
 # create an INET, STREAMing socket
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
