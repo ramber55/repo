@@ -5,6 +5,8 @@ PORT = 999
 IP = "127.0.0.1"  # This local host. With this IP, the socket is visible just locally.
 # On the other hand, setting IP this way, in most platforms make to
 # bypass some protocol stack layers.
+# IP = socket.gethostname()  # Using this way, remote connections are accepted (and this
+# socket server is visible from the outside world) but not the local ones
 
 MAX_OPEN_REQUESTS = 5
 
