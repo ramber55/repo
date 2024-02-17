@@ -42,13 +42,37 @@ def incoming_messages_listener(local_port):
             msg = clientsocket.recv(2048).decode("utf-8")
             print("Recived Message> {}".format(msg))
             clientsocket.close()
-
     except socket.error:
         print("Problems using port {}. Do you have permission?".format(local_port))
 
     except KeyboardInterrupt:
         print("User Interruption. Message Listener exiting.")
         serversocket.close()
+
+
+def message_sender(remote_port):
+    try:
+        while True:
+            message_to_send = input("Your Message>")
+            if message_to_send != "":
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+                # establish the connection to the remote side (IP, PORT)
+                s.connect((IP, remote_port))
+
+                # Send data. No strings can be sent, only bytes
+                # It necesary to encode the string into bytes
+                s.send(str.encode(message_to_send))
+
+                # Close the socket
+                s.close()
+    except socket.error:
+        print("Problems using port {}.".format(remote_port))
+
+    except KeyboardInterrupt:
+        print("User Interruption. Message Sender exiting.")
+        s.close()
+
 
 
 # MAIN PROGRAM
