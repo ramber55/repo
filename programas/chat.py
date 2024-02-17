@@ -51,6 +51,7 @@ def message_receiver(local_port):
     except KeyboardInterrupt:
         print("User Interruption. Message Listener exiting.")
         serversocket.close()
+        exit()
 
 
 def message_sender(remote_port):
@@ -77,10 +78,12 @@ def message_sender(remote_port):
         print("User Interruption. Message Sender exiting.")
         if s is not None:
             s.close()
+            exit()
     except KeyboardInterrupt:
         print("User Interruption. Message Sender exiting.")
         if s is not None:
             s.close()
+            exit()
 
 
 # MAIN PROGRAM
