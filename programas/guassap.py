@@ -1,6 +1,7 @@
 import sys
 import socket
 import threading
+import termcolor
 
 # Global Constants
 IP = "127.0.0.1"
@@ -46,7 +47,9 @@ def message_receiver(local_port):
 
             # Read the message from the client, if any
             msg = clientsocket.recv(2048).decode("utf-8")
-            print("\nReceived Message> {}".format(msg))
+            print("\nReceived Message> ", end=" ")
+            termcolor.cprint(msg, "green")
+
             print("\nYour Message> ", end=" ")
             clientsocket.close()
     except socket.error:
@@ -76,7 +79,7 @@ def message_sender(remote_port):
                     # Close the socket
                     s.close()
                 except socket.error:
-                    print("Problems using port {}. Probbaly nobody is hearing. Message not sent.".format(remote_port))
+                    print("Problems using port {}. Probbably nobody is hearing. Message not sent.".format(remote_port))
                     s.close()
     except EOFError:
         print("User Interruption. Message Sender exiting.")
