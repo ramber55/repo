@@ -8,6 +8,17 @@ IP = "127.0.0.1"
 MAX_OPEN_REQUESTS = 5
 
 
+class BCOLORS:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def get_ports_from_args():
     try:
         local_port = 0
@@ -48,7 +59,8 @@ def message_receiver(local_port):
             # Read the message from the client, if any
             msg = clientsocket.recv(2048).decode("utf-8")
             print("\nReceived Message> ", end=" ")
-            termcolor.cprint(msg, "green")
+            print(BCOLORS.OKBLUE + msg + BCOLORS.ENDC)
+            #termcolor.cprint(msg, "green")
 
             print("\nYour Message> ", end=" ")
             clientsocket.close()
