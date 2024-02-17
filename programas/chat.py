@@ -20,6 +20,10 @@ def get_ports_from_args():
             remote_port = int(sys.argv[2])
         elif sys.argv[3] == "-r":
             remote_port = int(sys.argv[4])
+
+        if local_port == 0 or remote_port == 0:
+            print("Some port missing. Exiting.")
+            exit ()
     except ValueError:
         print(f"Ports must be integers: [{sys.argv[2]}] [{sys.argv[4]}]. Exiting", )
         exit(1)
