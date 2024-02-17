@@ -1,6 +1,7 @@
 import sys
 import socket
 import threading
+import time
 
 # Global Constants
 IP = "127.0.0.1"
@@ -53,6 +54,7 @@ def message_receiver(local_port):
 
 
 def message_sender(remote_port):
+    s = None
     try:
         while True:
             message_to_send = input("Your Message>")
@@ -69,24 +71,24 @@ def message_sender(remote_port):
                 # Close the socket
                 s.close()
     except socket.error:
-        print("Problems using port {}.".format(remote_port))
+        print("Problems using port {}!!!.".format(remote_port))
 
     except KeyboardInterrupt:
         print("User Interruption. Message Sender exiting.")
-        s.close()
+        if s is not None:
+            s.close()
 
 
 # MAIN PROGRAM
 LOCAL_PORT, REMOTE_PORT = get_ports_from_args()
 print(f"Listening at {LOCAL_PORT} Messages to be sent to {REMOTE_PORT} ...")
 
+print("Creating Message Receiver")
 receiver_thread = threading.Thread(name='receiver', target=message_receiver, args=(LOCAL_PORT,))
+print("Starting Message Receiver")
+receiver_thread.start()
+
+print("Creating Message Sender")
 sender_thread = threading.Thread(name='sender', target=message_sender, args=(REMOTE_PORT,))
-
-
-
-
-
-
-
-
+print("Starting Message Receiver")
+sender_thread.start()
