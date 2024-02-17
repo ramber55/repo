@@ -42,7 +42,7 @@ def message_receiver(local_port):
 
             # Read the message from the client, if any
             msg = clientsocket.recv(2048).decode("utf-8")
-            print("Received Message> {}".format(msg))
+            print("\nReceived Message> {}".format(msg))
             print("\nYour Message>")
             clientsocket.close()
     except socket.error:
@@ -57,7 +57,7 @@ def message_sender(remote_port):
     s = None
     try:
         while True:
-            message_to_send = input("Your Message>")
+            message_to_send = input("\nYour Message>")
             if message_to_send != "":
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 try:
