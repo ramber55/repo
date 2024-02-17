@@ -87,15 +87,22 @@ def message_sender(remote_port):
 
 
 # MAIN PROGRAM
-LOCAL_PORT, REMOTE_PORT = get_ports_from_args()
-print(f"Listening at {LOCAL_PORT} Messages to be sent to {REMOTE_PORT} ...")
 
-print("Creating Message Receiver")
-receiver_thread = threading.Thread(name='receiver', target=message_receiver, args=(LOCAL_PORT,))
-print("Starting Message Receiver")
-receiver_thread.start()
+try:
+    LOCAL_PORT, REMOTE_PORT = get_ports_from_args()
+    print(f"Listening at {LOCAL_PORT} Messages to be sent to {REMOTE_PORT} ...")
 
-print("Creating Message Sender")
-sender_thread = threading.Thread(name='sender', target=message_sender, args=(REMOTE_PORT,))
-print("Starting Message Receiver")
-sender_thread.start()
+    print("Creating Message Receiver")
+    receiver_thread = threading.Thread(name='receiver', target=message_receiver, args=(LOCAL_PORT,))
+    print("Starting Message Receiver")
+    receiver_thread.start()
+
+    print("Creating Message Sender")
+    sender_thread = threading.Thread(name='sender', target=message_sender, args=(REMOTE_PORT,))
+    print("Starting Message Receiver")
+    sender_thread.start()
+
+except KeyboardInterrupt:
+    print("User Interruption. Exiting.")
+    exit()
+
