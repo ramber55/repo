@@ -43,7 +43,7 @@ def message_receiver(local_port):
             # Read the message from the client, if any
             msg = clientsocket.recv(2048).decode("utf-8")
             print("\nReceived Message> {}".format(msg))
-            print("\nYour Message>")
+            print("\nYour Message>", end=" ")
             clientsocket.close()
     except socket.error:
         print("Problems using port {}. Do you have permission?".format(local_port))
@@ -73,6 +73,10 @@ def message_sender(remote_port):
                 except socket.error:
                     print("Problems using port {}. Probbaly nobody is hearing. Message not sent.".format(remote_port))
                     s.close()
+    except EOFError:
+        print("User Interruption. Message Sender exiting.")
+        if s is not None:
+            s.close()
     except KeyboardInterrupt:
         print("User Interruption. Message Sender exiting.")
         if s is not None:
