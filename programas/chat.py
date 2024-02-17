@@ -43,6 +43,7 @@ def message_receiver(local_port):
             # Read the message from the client, if any
             msg = clientsocket.recv(2048).decode("utf-8")
             print("Received Message> {}".format(msg))
+            print("\nYour Message>")
             clientsocket.close()
     except socket.error:
         print("Problems using port {}. Do you have permission?".format(local_port))
