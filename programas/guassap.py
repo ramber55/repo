@@ -19,6 +19,7 @@ class BCOLORS:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 def get_ports_from_args():
     try:
         local_port = 0
@@ -35,7 +36,7 @@ def get_ports_from_args():
 
         if local_port == 0 or remote_port == 0:
             print("Some port missing. Exiting.")
-            exit ()
+            exit()
     except ValueError:
         print(f"Ports must be integers: [{sys.argv[2]}] [{sys.argv[4]}]. Exiting", )
         exit(1)
@@ -60,7 +61,7 @@ def message_receiver(local_port):
             msg = clientsocket.recv(2048).decode("utf-8")
             print("\nReceived Message> ", end=" ")
             print(BCOLORS.OKBLUE + msg + BCOLORS.ENDC)
-            #termcolor.cprint(msg, "green")
+            # termcolor.cprint(msg, "green")
 
             print("\nYour Message> ", end=" ")
             clientsocket.close()
@@ -120,4 +121,3 @@ try:
 except KeyboardInterrupt:
     print("User Interruption. Exiting.")
     exit()
-
