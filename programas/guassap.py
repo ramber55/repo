@@ -93,16 +93,12 @@ def message_sender(remote_port):
                 except socket.error:
                     print("Problems using port {}. Probbably nobody is hearing. Message not sent.".format(remote_port))
                     s.close()
-    except EOFError:
+
+    except (EOFError, UnicodeDecodeError, KeyboardInterrupt):
         print("User Interruption. Message Sender exiting.")
         if s is not None:
             s.close()
-            exit()
-    except KeyboardInterrupt:
-        print("User Interruption. Message Sender exiting.")
-        if s is not None:
-            s.close()
-            exit()
+        exit()
 
 
 # MAIN PROGRAM
