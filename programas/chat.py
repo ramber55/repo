@@ -1,7 +1,6 @@
 import sys
 import socket
 import threading
-import time
 
 # Global Constants
 IP = "127.0.0.1"
@@ -60,19 +59,19 @@ def message_sender(remote_port):
             message_to_send = input("Your Message>")
             if message_to_send != "":
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                try:
+                    # establish the connection to the remote side (IP, PORT)
+                    s.connect((IP, remote_port))
 
-                # establish the connection to the remote side (IP, PORT)
-                s.connect((IP, remote_port))
+                    # Send data. No strings can be sent, only bytes
+                    # It necesary to encode the string into bytes
+                    s.send(str.encode(message_to_send))
 
-                # Send data. No strings can be sent, only bytes
-                # It necesary to encode the string into bytes
-                s.send(str.encode(message_to_send))
-
-                # Close the socket
-                s.close()
-    except socket.error:
-        print("Problems using port {}!!!.".format(remote_port))
-
+                    # Close the socket
+                    s.close()
+                except socket.error:
+                    print("Problems using port {}. Probbaly nobody is hearing. Message not sent.".format(remote_port))
+                    s.close()
     except KeyboardInterrupt:
         print("User Interruption. Message Sender exiting.")
         if s is not None:
