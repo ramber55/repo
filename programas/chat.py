@@ -1,6 +1,8 @@
 import sys
 import socket
+import threading
 
+# Global Constants
 IP = "127.0.0.1"
 MAX_OPEN_REQUESTS = 5
 
@@ -25,7 +27,7 @@ def get_ports_from_args():
     return local_port, remote_port
 
 
-def incoming_messages_listener(local_port):
+def message_receiver(local_port):
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         # Establishing Listening server at LOCAL_PORT:
@@ -74,10 +76,13 @@ def message_sender(remote_port):
         s.close()
 
 
-
 # MAIN PROGRAM
 LOCAL_PORT, REMOTE_PORT = get_ports_from_args()
-print(f"Listening from {LOCAL_PORT} colling to {REMOTE_PORT} ...")
+print(f"Listening at {LOCAL_PORT} Messages to be sent to {REMOTE_PORT} ...")
+
+receiver_thread = threading.Thread(name='receiver', target=message_receiver, args=(LOCAL_PORT,))
+sender_thread = threading.Thread(name='sender', target=message_sender, args=(REMOTE_PORT,))
+
 
 
 
