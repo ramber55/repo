@@ -3,7 +3,7 @@ import socket
 # SERVER IP, PORT
 # Write here the correct parameter for connecting to the
 # Local host
-PORT = 999
+PORT = 8081
 IP = "127.0.0.1"
 
 
@@ -16,9 +16,9 @@ s.connect((IP, PORT))
 
 # Send data. No strings can be sent, only bytes
 # It necesary to encode the string into bytes
-s.send(str.encode("HELLO FROM THE CLIENT!!!"))
+s.send(str.encode("HELLO FROM LEGANES!!!"))
 
-msg = s.recv(2048).decode("utf-8")
+msg = s.rcv(2048).decode("utf-8")
 print("Message from server: {}".format(msg))
 
 # Close the socket

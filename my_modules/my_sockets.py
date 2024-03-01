@@ -18,10 +18,10 @@ class CLIENTSOCKET:
         # establishes the connection to the remote side (IP, PORT)
         clientsock.connect((self.ip, self.port))
 
-        # Sends data (after encoding).
+        # Sends data (after encoding).+
         clientsock.send(str.encode(message_to_send))
 
-        # Waits for answer:
+        # Waits for an answer:
         received_msg = clientsock.recv(2048).decode("utf-8")
 
         clientsock.close()
