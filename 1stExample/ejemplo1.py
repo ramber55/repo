@@ -1,4 +1,4 @@
-print("Hello cruel world!...")
+print("Hello cruel world from a Linux Machine!...")
 
 print("Printing the first 20 integer non null numbers:")
 suma = 0
