@@ -18,8 +18,12 @@ s.connect((IP, PORT))
 # It necesary to encode the string into bytes
 s.send(str.encode("HELLO FROM LEGANES!!!"))
 
-msg = s.rcv(2048).decode("utf-8")
+# We receive the answer from the server.
+# recv is blocked until a message is received
+# from server.
+msg = s.recv(2048).decode("utf-8")
 print("Message from server: {}".format(msg))
 
-# Close the socket
+# Close the socket to free resources and to let
+# the server know that the communication is stopped
 s.close()

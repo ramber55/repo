@@ -23,7 +23,7 @@ try:
     # requests. It is not used to send or receive data. Once a connection request is
     # accepted (see bellow) a client socket is created for the message interchange with
     # the other side.
-    # MAX_OPEN_REQUESTS connect requests before refusing outside connections
+    # MAX_OPEN_REQUESTS is the nb os simultaneous accepted connection requests
     serversocket.listen(MAX_OPEN_REQUESTS)
 
     while True:
