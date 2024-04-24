@@ -54,7 +54,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             # error.html must be served
             file_to_serve = MY_HTML_PAGES / "error.html"
 
-        contents = file_to_serve.read_text("latin-1")
+        contents = file_to_serve.read_text("utf-8")
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
