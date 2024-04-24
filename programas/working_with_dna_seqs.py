@@ -41,7 +41,7 @@ pprint(RNU6_269P_sequence.seq_count())
 print("Most Frequent base:", RNU6_269P_sequence.get_most_frequent_base())
 
 print("\n\n======================\n\n")
-seq_list1 = generate_seqs("ACG", 4)
+seq_list1 = generate_seqs("ACXG", 4)
 pprint(seq_list1)
 print("\n\n======================\n\n")
 
