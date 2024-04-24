@@ -1,3 +1,4 @@
+from pathlib import Path
 import http.server
 import socketserver
 import termcolor
@@ -8,6 +9,12 @@ PORT = 8080
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
 
+# -- Some directories commonly used along this code:
+MY_PYTHON_REPO = Path.cwd().parent
+MY_RESOURCES = MY_PYTHON_REPO / "resources"
+
+MY_HTML_PAGES = MY_RESOURCES / "html_pages"
+MY_HTML_INFO_PAGES = MY_HTML_PAGES / "info"
 
 # Class with our Handler. It is a called derived from BaseHTTPRequestHandler
 # It means that our class inherits all his methods and properties
@@ -18,27 +25,42 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         in the HTTP protocol request"""
 
         # Print the request line
+        print(" Request line: ", end="")
         termcolor.cprint(self.requestline, 'green')
 
-        # Print the command received (should be GET)
-        print("  Command: " + self.command)
+        print(" Command: ", end="")
+        termcolor.cprint(self.command, 'green')
 
-        # Print the resource requested (the path)
-        print("  Path: " + self.path)
+        print(" Path: ", end="")
+        termcolor.cprint(self.path, 'green')
 
-        # IN this simple server version:
-        # We are NOT processing the client's request
-        # It is a happy server: It always returns a message saying
-        # that everything is ok
+        file_to_serve = ""
+        if self.path == "/":
+            # index.html must be served
+            file_to_serve = MY_HTML_PAGES / "index.html"
+        elif self.path == "/info/A.html":
+            # index.html must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "A.html"
+        elif self.path == "/info/C.html":
+            # index.html must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "C.html"
+        elif self.path == "/info/G.html":
+            # index.html must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "G.html"
+        elif self.path == "/info/T.html":
+            # index.html must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "T.html"
+        else:
+            # error.html must be served
+            file_to_serve = MY_HTML_PAGES / "error.html"
 
-        # Message to send back to the client
-        contents = "I am the happy server! :-)"
+        contents = file_to_serve.read_text("latin-1")
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/plain')
+        self.send_header('Content-Type', 'text/html')
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished
