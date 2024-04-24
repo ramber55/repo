@@ -1,15 +1,49 @@
 <!DOCTYPE html>
-    <html lang="en" dir="ltr">
-      <head>
-        <meta charset="utf-8">
-        <title>Bases</title>
-      </head>
-      <body style="background-color: white;">
-        <h1>Bases information</h1>
-        <p>Click on the following links to have more information<p>
-        <a href="/info/A.html">[A]</a>
-        <a href="/info/C.html">[C]</a>
-        <a href="/info/G.html">[G]</a>
-        <a href="/info/T.html">[T]</a>
-      </body>
-    </html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>FORM</title>
+  </head>
+  <body>
+    <h1>SEQ Server</h1>
+    Access to the Server <br>
+    <hr>
+    <form action="ping" method="get">
+      Is the server alive?
+      <input type="submit" value="PING"/>
+    </form>
+    <hr>
+    <form action = "getSeqByLetter" method = "get">
+      Get a Base by letter. Select a base letter
+      <select name="baseLetter">
+        <option value="A">A</option>
+        <option value="C">C</option>
+        <option value="G">G</option>
+        <option value="T">T</option>
+      </select>
+      <input type="submit" value = "SEND BASE LETTER"/>
+    </form>
+    <hr>
+    <form action = "getSeqByName" method = "get">
+      Get a Base by name. Select a base name
+      <select name="baseName">
+        <option value="Adenine">Adenine</option>
+        <option value="Cytosine">Cytosine</option>
+        <option value="Guanine">Guanine</option>
+        <option value="Thymine">Thymine</option>
+      </select>
+      <input type="submit" value = "SEND BASE NAME"/>
+    </form>
+    <hr>
+    <form action="operation" method="get">
+        Write a sequence <input type="text" name="msg"><br>
+        Select operation
+        <input type="radio" name="base" value="Info" checked> Info
+        <input type="radio" name="base" value="Comp"> Comp
+        <input type="radio" name="base" value="Rev"> Rev
+        <br>
+        Perform operation:
+        <input type="submit" value = "OPERATE!"/>
+
+  </body>
+</html>
