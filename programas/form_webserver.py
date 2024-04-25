@@ -1,4 +1,4 @@
-from pprint import pp
+from pprint import pprint
 from pathlib import Path
 
 import http.server
@@ -39,9 +39,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         parsed_arguments = parse_qs(url_path.query)
 
         print(" path: ", end="")
-        pp(parsed_path)
+        pprint(parsed_path)
         print(" arguments: ", end="")
-        pp(parsed_arguments)
+        pprint(parsed_arguments)
 
         file_to_serve = ""
         if parsed_path == "/":
@@ -57,6 +57,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             base_to_get = parsed_arguments["baseName"][0]
             print("base name=", base_to_get)
             filename_to_serve = base_to_get + ".html"
+            file_to_serve = MY_HTML_PAGES / "ping.html"
+        elif parsed_path == "/operation":
+            print("Parsed Arguments:")
+            pprint(parsed_arguments)
+            operation_to_do = parsed_arguments["operationType"]
+            string_to_process = parsed_arguments["stringData"]
+            print(f"I have to do {operation_to_do[0]} with \"{string_to_process[0]}\"")
+
             file_to_serve = MY_HTML_PAGES / "ping.html"
 
         else:

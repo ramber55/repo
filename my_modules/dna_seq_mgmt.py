@@ -66,13 +66,13 @@ class DNA_SEQUENCE:
             self.body = body
         else:
             self.body = "ERROR"
-            termcolor.cprint("DNA_SEQUENCE::constructor ERROR: Incorrect Sequence Detected!", "green")
+            termcolor.cprint("DNA_SEQUENCE::constructor ERROR: Incorrect Sequence Detected!", "green", force_color=True)
 
     def read_seq_from_file(self, filename):
         self.header, self.body = seq_read_fasta(filename)
         if not is_dna_seq_ok(self.body):
             self.body = "ERROR"
-            termcolor.cprint("DNA_SEQUENCE::read_seq_from_file ERROR: Incorrect Sequence Detected!", "green")
+            termcolor.cprint("DNA_SEQUENCE::read_seq_from_file ERROR: Incorrect Sequence Detected!", "green", force_color=True)
 
     def __len__(self):
         if self.body == "NULL" or self.body == "ERROR":
@@ -105,7 +105,7 @@ class DNA_SEQUENCE:
             self.body = body
         else:
             self.body = "ERROR"
-            termcolor.cprint("DNA_SEQUENCE::set_body ERROR: Incorrect Sequence Detected!", "yellow")
+            termcolor.cprint("DNA_SEQUENCE::set_body ERROR: Incorrect Sequence Detected!", "yellow", force_color=True)
 
     def seq_count_base(self, base):
         return self.body.count(base)
