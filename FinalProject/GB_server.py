@@ -6,6 +6,7 @@ import socketserver
 from urllib.parse import parse_qs, urlparse
 import jinja2 as j
 
+import GB_ensembl_client
 
 import termcolor
 
@@ -16,12 +17,12 @@ PORT = 8080
 socketserver.TCPServer.allow_reuse_address = True
 
 # -- Some directories commonly used along this code:
-GBSERVER_DIR = Path.cwd().parent
+GBSERVER_DIR = Path.cwd()
 HTML_FOLDER = GBSERVER_DIR / "HTML"
 
 # Class with our Handler. It is a called derived from BaseHTTPRequestHandler
 # It means that our class inherits all his methods and properties
-class TestHandler(http.server.BaseHTTPRequestHandler):
+class GB_Handler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
         """This method is called whenever the client invokes the GET method
@@ -45,8 +46,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             # index.html must be served
             file_to_serve = HTML_FOLDER / "index.html"
         elif parsed_path == "/getSpeciesList":
+            received_limit = parsed_arguments.get("limit", ["0"])
+            limit = int(received_limit[0])
+            print("Límite: ", limit)
+
             # file_to_serve = HTML_FOLDER / "SpeciesList.HTML"
-            file_to_serve = HTML_FOLDER / "test.HTML"
+            file_to_serve = HTML_FOLDER / "test.html"
         else:
             # error.HTML must be served
             file_to_serve = HTML_FOLDER / "error.HTML"
@@ -73,10 +78,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 # - Server MAIN program
 # ------------------------
 # -- Set the new handler
-Handler = TestHandler
+gb_handler = GB_Handler
+gb_ensembl_client = GB_ensembl_client
 
 # -- Open the socket server
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
+with socketserver.TCPServer(("", PORT), gb_handler) as httpd:
 
     print("Serving at PORT", PORT)
 
