@@ -2,15 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>GENE BROWSER FORM</title>
+    <title>GENOME BROWSER HOME</title>
   </head>
   <body>
-    <h1>SEQ Server</h1>
-    Access to the Server <br>
+    <h1>Browsing Vertebrates and Human genomes</h1>
+    <h2>BASIC Level Services</h2>
     <hr>
-    <form action="ping" method="get">
-      Is the server alive?
-      <input type="submit" value="PING"/>
+    <form action="getSpeciesList" method="get">
+      1) List of species in the genome database
+      Limit <input type="text" name="limit">
+      <input type="submit" value="Send"/>
     </form>
     <hr>
     <form action = "getSeqByLetter" method = "get">

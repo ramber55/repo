@@ -45,19 +45,19 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         file_to_serve = ""
         if parsed_path == "/":
-            # index.html must be served
-            file_to_serve = MY_HTML_PAGES / "index.html"
+            # index.HTML must be served
+            file_to_serve = MY_HTML_PAGES / "index.HTML"
         elif parsed_path == "/ping":
-            file_to_serve = MY_HTML_PAGES / "ping.html"
+            file_to_serve = MY_HTML_PAGES / "ping.HTML"
         elif parsed_path == "/getSeqByLetter":
             base_to_get = parsed_arguments["baseLetter"][0]
-            filename_to_serve = base_to_get + ".html"
+            filename_to_serve = base_to_get + ".HTML"
             file_to_serve = MY_HTML_INFO_PAGES / filename_to_serve
         elif parsed_path == "/getSeqByName":
             base_to_get = parsed_arguments["baseName"][0]
             print("base name=", base_to_get)
-            filename_to_serve = base_to_get + ".html"
-            file_to_serve = MY_HTML_PAGES / "ping.html"
+            filename_to_serve = base_to_get + ".HTML"
+            file_to_serve = MY_HTML_PAGES / "ping.HTML"
         elif parsed_path == "/operation":
             print("Parsed Arguments:")
             pprint(parsed_arguments)
@@ -65,11 +65,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             string_to_process = parsed_arguments["stringData"]
             print(f"I have to do {operation_to_do[0]} with \"{string_to_process[0]}\"")
 
-            file_to_serve = MY_HTML_PAGES / "ping.html"
+            file_to_serve = MY_HTML_PAGES / "ping.HTML"
 
         else:
-            # error.html must be served
-            file_to_serve = MY_HTML_PAGES / "error.html"
+            # error.HTML must be served
+            file_to_serve = MY_HTML_PAGES / "error.HTML"
 
         contents = file_to_serve.read_text("utf-8")
 
@@ -77,7 +77,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', 'text/HTML')
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished

@@ -36,23 +36,23 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         file_to_serve = ""
         if self.path == "/":
-            # index.html must be served
-            file_to_serve = MY_HTML_PAGES / "index.html"
-        elif self.path == "/info/A.html":
-            # index.html must be served
-            file_to_serve = MY_HTML_INFO_PAGES / "A.html"
-        elif self.path == "/info/C.html":
-            # index.html must be served
-            file_to_serve = MY_HTML_INFO_PAGES / "C.html"
-        elif self.path == "/info/G.html":
-            # index.html must be served
-            file_to_serve = MY_HTML_INFO_PAGES / "G.html"
-        elif self.path == "/info/T.html":
-            # index.html must be served
-            file_to_serve = MY_HTML_INFO_PAGES / "T.html"
+            # index.HTML must be served
+            file_to_serve = MY_HTML_PAGES / "index.HTML"
+        elif self.path == "/info/A.HTML":
+            # index.HTML must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "A.HTML"
+        elif self.path == "/info/C.HTML":
+            # index.HTML must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "C.HTML"
+        elif self.path == "/info/G.HTML":
+            # index.HTML must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "G.HTML"
+        elif self.path == "/info/T.HTML":
+            # index.HTML must be served
+            file_to_serve = MY_HTML_INFO_PAGES / "T.HTML"
         else:
-            # error.html must be served
-            file_to_serve = MY_HTML_PAGES / "error.html"
+            # error.HTML must be served
+            file_to_serve = MY_HTML_PAGES / "error.HTML"
 
         contents = file_to_serve.read_text("utf-8")
 
@@ -60,7 +60,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', 'text/HTML')
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished
