@@ -1,5 +1,6 @@
 from pprint import pprint
 from pathlib import Path
+import termcolor
 
 import http.server
 import socketserver
@@ -7,8 +8,7 @@ from urllib.parse import parse_qs, urlparse
 import jinja2 as j
 
 import GB_ensembl_client
-
-import termcolor
+import GB_html_mgmt
 
 # Define the Server's port
 PORT = 8080
@@ -19,6 +19,8 @@ socketserver.TCPServer.allow_reuse_address = True
 # -- Some directories commonly used along this code:
 GBSERVER_DIR = Path.cwd()
 HTML_FOLDER = GBSERVER_DIR / "HTML"
+
+gb_ensembl_handler = GB_ensembl_client.GB_ensembl_handler()
 
 # Class with our Handler. It is a called derived from BaseHTTPRequestHandler
 # It means that our class inherits all his methods and properties
@@ -41,22 +43,23 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
         print(" arguments: ", end="")
         pprint(parsed_arguments)
 
-        file_to_serve = ""
         if parsed_path == "/":
             # index.html must be served
             file_to_serve = HTML_FOLDER / "index.html"
+            contents = file_to_serve.read_text("utf-8")
         elif parsed_path == "/getSpeciesList":
             received_limit = parsed_arguments.get("limit", ["0"])
             limit = int(received_limit[0])
-            print("Límite: ", limit)
-
-            # file_to_serve = HTML_FOLDER / "SpeciesList.HTML"
             file_to_serve = HTML_FOLDER / "test.html"
+            species_list = gb_ensembl_handler.get_list_of_species(limit)
+            contents = GB_html_mgmt.build_species_list_page(species_list[0], limit, species_list[1])
+        elif parsed_path == "/getSeqByLetter":
+            file_to_serve = HTML_FOLDER / "test.html"
+            contents = file_to_serve.read_text("utf-8")
         else:
             # error.HTML must be served
-            file_to_serve = HTML_FOLDER / "error.HTML"
-
-        contents = file_to_serve.read_text("utf-8")
+            file_to_serve = HTML_FOLDER / "error.html"
+            contents = file_to_serve.read_text("utf-8")
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
@@ -79,7 +82,6 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
 # ------------------------
 # -- Set the new handler
 gb_handler = GB_Handler
-gb_ensembl_client = GB_ensembl_client
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), gb_handler) as httpd:

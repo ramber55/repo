@@ -6,8 +6,10 @@ ENSEMBL_SERVER = "rest.ensembl.org"
 PARAMS = "?content-type=application/json"
 
 ENDPOINT_INFO_SPECIES = "/info/species"
+GEN_ID = "ENSG00000165879"
+ENDPOINT_GET_GEN = "/sequence/id/" + GEN_ID
 
-class GB_ensemble_client:
+class GB_ensembl_handler:
     def __init__(self):
         print("GB_ensemble_client initialized. Server:", ENSEMBL_SERVER)
 
@@ -16,7 +18,8 @@ class GB_ensemble_client:
         conn = http.client.HTTPConnection(ENSEMBL_SERVER)
 
         try:
-            conn.request("GET", full_endpoint + PARAMS)
+            print("Endpoint:", full_endpoint)
+            conn.request("GET", full_endpoint)
         except ConnectionRefusedError:
             print("ERROR! Cannot connect to the Server")
             exit()
@@ -34,3 +37,22 @@ class GB_ensemble_client:
         print()
         return response
 
+    def get_list_of_species(self, limit):
+        ensembl_species = self.send_request(ENDPOINT_INFO_SPECIES)
+
+        ensembl_list_of_species = ensembl_species["species"]
+        nb_of_species = len(ensembl_list_of_species)
+
+        limit_to_apply = False
+        if limit != 0:
+            limit_to_apply = True
+
+        list_of_species = []
+        copied_species = 0
+        for specie_item in ensembl_list_of_species:
+            list_of_species.append(specie_item["display_name"])
+            copied_species += 1
+            if limit_to_apply and copied_species == limit:
+                break
+
+        return nb_of_species, list_of_species
