@@ -1,3 +1,4 @@
+import json
 from pprint import pprint
 from pathlib import Path
 import termcolor
@@ -7,6 +8,7 @@ import socketserver
 from urllib.parse import parse_qs, urlparse
 
 import GB_html_mgmt
+import GB_rest_mgmt
 
 # Define the Server's port
 PORT = 8080
@@ -19,6 +21,7 @@ GBSERVER_DIR = Path.cwd()
 HTML_FOLDER = GBSERVER_DIR / "HTML"
 
 gb_html_handler = GB_html_mgmt.GB_html_handler()
+gb_rest_handler = GB_rest_mgmt.GB_rest_handler()
 
 # Class with our Handler. It is a called derived from BaseHTTPRequestHandler
 # It means that our class inherits all his methods and properties
@@ -56,7 +59,7 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
             contents = file_to_serve.read_text("utf-8")
         elif parsed_path == "/restGetSeqByLetter":
             content_type = "application/json"
-            contents = "{'ping':1}"
+            contents = gb_rest_handler.getSpeciesList(parsed_arguments)
         else:
             # error.HTML must be served
             file_to_serve = HTML_FOLDER / "error.html"
