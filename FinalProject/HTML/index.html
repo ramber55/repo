@@ -2,7 +2,8 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>GENOME BROWSER HOME</title>
+    <title>Genome Browser Home</title>
+    <link id="favicon" rel="icon" href="/home/ramon/MisDocumentos/MisEMpolles/Python/repo/FinalProject/resources/adnC.png" type="image/png">
   </head>
   <body style="background-color: LightYellow;">
     <h1>Browsing Vertebrates and Human genomes</h1>
@@ -10,7 +11,7 @@
     <hr>
     <p>1) List of species in the genome database</p>
     <form action="getSpeciesList" method="get">
-      Limit (0 or empty for no limits) <input type="text" name="limit">
+      Limit (0 or empty for no limits) : <input type="text" name="limit">
       <input type="submit" value="Send"/>
     </form>
     <hr>
@@ -25,26 +26,13 @@
       <input type="submit" value = "SEND BASE LETTER"/>
     </form>
     <hr>
-    <form action = "getSeqByName" method = "get">
-      Get a Base by name. Select a base name
-      <select name="baseName">
-        <option value="Adenine">Adenine</option>
-        <option value="Cytosine">Cytosine</option>
-        <option value="Guanine">Guanine</option>
-        <option value="Thymine">Thymine</option>
-      </select>
-      <input type="submit" value = "SEND BASE NAME"/>
+    <p>3) Chromosome Lenght</p>
+    <form action="chromosomeLength" method="get">
+      <p>Select the species : <input type="text" name="specie"></p>
+      <p>Select a chromosome : <input type="text" name="min_len"></p>
+      <input type="submit" value="Send"/>
     </form>
     <hr>
-    <form action="operation" method="get">
-        Write a sequence <input type="text" name="stringData"><br>
-        Select operation
-        <input type="radio" name="operationType" value="Info" checked> Info
-        <input type="radio" name="operationType" value="Comp"> Comp
-        <input type="radio" name="operationType" value="Rev"> Rev
-        <br>
-        Perform operation:
-        <input type="submit" value = "GO!"/>
 
   </body>
 </html>

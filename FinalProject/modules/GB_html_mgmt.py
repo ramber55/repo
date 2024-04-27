@@ -2,29 +2,23 @@ from pathlib import Path
 
 import jinja2 as j
 
+import GB_html_commons
+import GB_ensembl_client
+
+
 GBSERVER_DIR = Path.cwd()
 HTML_FOLDER = GBSERVER_DIR / "HTML"
 
+gb_ensembl_handler = GB_ensembl_client.GB_ensembl_handler()
 
-def read_html_file(filename):
-    contents = Path(HTML_FOLDER / filename).read_text()
-    contents = j.Template(contents)
-    return contents
+class GB_html_handler:
+    def __init(self):
+        print("GB_html_handler initialized")
 
+    def getSpeciesList(self, parsed_arguments):
+        received_limit = parsed_arguments.get("limit", ["0"])
+        limit = int(received_limit[0])
+        species_list = gb_ensembl_handler.get_list_of_species(limit)
+        contents = GB_html_commons.build_species_list_page(species_list[0], limit, species_list[1])
 
-def list_to_html_list(python_list):
-    html_list = "<ul>\n"
-    for item in python_list:
-        html_list += f"<li>{item}</li>\n"
-    html_list += "</ul>\n"
-    return html_list
-
-
-def build_species_list_page(nb_of_species, limit, species_list):
-    limit_str = str(limit)
-    if limit == 0:
-        limit_str = "None"
-    html_list = list_to_html_list(species_list)
-    contents = read_html_file("SpeciesList.html").render(context={"nb_of_species": nb_of_species, "limit": limit_str, "species_list": html_list})
-    return contents
-
+        return contents

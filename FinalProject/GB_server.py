@@ -5,9 +5,7 @@ import termcolor
 import http.server
 import socketserver
 from urllib.parse import parse_qs, urlparse
-import jinja2 as j
 
-import GB_ensembl_client
 import GB_html_mgmt
 
 # Define the Server's port
@@ -20,7 +18,7 @@ socketserver.TCPServer.allow_reuse_address = True
 GBSERVER_DIR = Path.cwd()
 HTML_FOLDER = GBSERVER_DIR / "HTML"
 
-gb_ensembl_handler = GB_ensembl_client.GB_ensembl_handler()
+gb_html_handler = GB_html_mgmt.GB_html_handler()
 
 # Class with our Handler. It is a called derived from BaseHTTPRequestHandler
 # It means that our class inherits all his methods and properties
@@ -48,11 +46,7 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
             file_to_serve = HTML_FOLDER / "index.html"
             contents = file_to_serve.read_text("utf-8")
         elif parsed_path == "/getSpeciesList":
-            received_limit = parsed_arguments.get("limit", ["0"])
-            limit = int(received_limit[0])
-            file_to_serve = HTML_FOLDER / "test.html"
-            species_list = gb_ensembl_handler.get_list_of_species(limit)
-            contents = GB_html_mgmt.build_species_list_page(species_list[0], limit, species_list[1])
+            contents = gb_html_handler.getSpeciesList(parsed_arguments)
         elif parsed_path == "/getSeqByLetter":
             file_to_serve = HTML_FOLDER / "test.html"
             contents = file_to_serve.read_text("utf-8")
