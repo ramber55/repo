@@ -41,33 +41,41 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
         print(" arguments: ", end="")
         pprint(parsed_arguments)
 
+        content_type = "text/HTML"
         if parsed_path == "/":
             # index.html must be served
             file_to_serve = HTML_FOLDER / "index.html"
+            content_type = "text/HTML"
             contents = file_to_serve.read_text("utf-8")
         elif parsed_path == "/getSpeciesList":
+            content_type = "text/HTML"
             contents = gb_html_handler.getSpeciesList(parsed_arguments)
         elif parsed_path == "/getSeqByLetter":
             file_to_serve = HTML_FOLDER / "test.html"
+            content_type = "text/HTML"
             contents = file_to_serve.read_text("utf-8")
+        elif parsed_path == "/restGetSeqByLetter":
+            content_type = "application/json"
+            contents = "{'ping':1}"
         else:
             # error.HTML must be served
             file_to_serve = HTML_FOLDER / "error.html"
+            content_type = "text/HTML"
             contents = file_to_serve.read_text("utf-8")
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/HTML')
-        self.send_header('Content-Length', len(contents.encode()))
+        self.send_header('Content-Type', content_type)
+        encoded_contents = contents.encode()
+        self.send_header('Content-Length', str(len(encoded_contents)))
 
         # The header is finished
         self.end_headers()
 
         # Send the response message
-        self.wfile.write(contents.encode())
-
+        self.wfile.write(encoded_contents)
         return
 
 
