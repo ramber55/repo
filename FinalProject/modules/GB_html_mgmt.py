@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 import GB_html_commons
@@ -27,7 +28,27 @@ class GB_html_handler:
             contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
             return contents
 
-        species_list = gb_ensembl_handler.get_list_of_species(limit)
-        contents = GB_html_commons.build_species_list_page(species_list[0], limit, species_list[1])
+        try:
+            species_list = gb_ensembl_handler.get_list_of_species(limit)
+        except ConnectionRefusedError:
+            error_message = "Cannot connect to the Server"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+
+        try:
+            contents = GB_html_commons.build_species_list_page(species_list[0], limit, species_list[1])
+        except FileNotFoundError:
+            error_message = "SpeciesList.html is not present"
+            error_notes = "Genome Browser installation may be corrupted"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.PAGEFILE_NOTFOUND_ERROR, error_message, error_notes)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
 
         return contents

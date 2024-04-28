@@ -44,27 +44,31 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
         print(" arguments: ", end="")
         pprint(parsed_arguments)
 
-        content_type = "text/HTML"
+        content_type = "text/html"
         if parsed_path == "/":
             # index.html must be served
             file_to_serve = HTML_FOLDER / "index.html"
-            content_type = "text/HTML"
+            content_type = "text/html"
             contents = file_to_serve.read_text("utf-8")
         elif parsed_path == "/getSpeciesList":
-            content_type = "text/HTML"
+            content_type = "text/html"
             contents = gb_html_handler.getSpeciesList(parsed_arguments)
         elif parsed_path == "/getSeqByLetter":
             file_to_serve = HTML_FOLDER / "test.html"
-            content_type = "text/HTML"
+            content_type = "text/html"
             contents = file_to_serve.read_text("utf-8")
-        elif parsed_path == "/restGetSeqByLetter":
+        elif parsed_path == "/rest_getSpeciesList":
             content_type = "application/json"
             contents = gb_rest_handler.getSpeciesList(parsed_arguments)
         else:
-            # error.HTML must be served
-            file_to_serve = HTML_FOLDER / "error.html"
-            content_type = "text/HTML"
-            contents = file_to_serve.read_text("utf-8")
+            if parsed_path.startswith("/rest_"):
+                content_type = "application/json"
+                contents = gb_rest_handler.getWrongRestEndpoint(parsed_path)
+            else:
+                content_type = "text/html"
+                # error.html must be served
+                file_to_serve = HTML_FOLDER / "error.html"
+                contents = file_to_serve.read_text("utf-8")
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!

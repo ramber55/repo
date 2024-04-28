@@ -2,6 +2,9 @@ import json
 
 
 BAD_PARAMETER = "Bad Parameter Error"
+ENSEMBL_COM_ERROR = "Communication problems with Ensembl"
+WRONG_REST_ENDPOINT = "Wrong Endpoint"
+
 
 
 def build_json_error_msg(error_type, error_message, error_notes=None):

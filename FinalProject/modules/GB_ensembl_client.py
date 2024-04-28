@@ -17,12 +17,9 @@ class GB_ensembl_handler:
         full_endpoint = service_endpoint + PARAMS
         conn = http.client.HTTPConnection(ENSEMBL_SERVER)
 
-        try:
-            print("Endpoint:", full_endpoint)
-            conn.request("GET", full_endpoint)
-        except ConnectionRefusedError:
-            print("ERROR! Cannot connect to the Server")
-            exit()
+        # exceptions arisen from request are catched at the calling function:
+        print("Endpoint:", full_endpoint)
+        conn.request("GET", full_endpoint)
 
         # -- Read the response message from the server
         r1 = conn.getresponse()

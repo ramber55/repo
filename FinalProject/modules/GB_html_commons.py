@@ -6,6 +6,8 @@ GBSERVER_DIR = Path.cwd()
 HTML_FOLDER = GBSERVER_DIR / "HTML"
 
 INPUT_DATA_ERROR = "Input Data Error"
+ENSEMBL_COM_ERROR = "Communication problems with Ensembl"
+PAGEFILE_NOTFOUND_ERROR = "A required html file is not found"
 
 
 def read_html_file(filename):
