@@ -38,18 +38,21 @@ class GB_ensembl_handler:
         ensembl_species = self.send_request(ENDPOINT_INFO_SPECIES)
 
         ensembl_list_of_species = ensembl_species["species"]
-        nb_of_species = len(ensembl_list_of_species)
 
         limit_to_apply = False
         if limit != 0:
             limit_to_apply = True
 
         list_of_species = []
+        nb_of_species = 0
         copied_species = 0
         for specie_item in ensembl_list_of_species:
-            list_of_species.append(specie_item["display_name"])
-            copied_species += 1
-            if limit_to_apply and copied_species == limit:
-                break
+            if specie_item["division"] == "EnsemblVertebrates":
+                nb_of_species += 1
+                if not limit_to_apply or copied_species < limit:
+                    list_of_species.append(specie_item["display_name"])
+                    copied_species += 1
+            else:
+                print("descartado")
 
         return nb_of_species, list_of_species

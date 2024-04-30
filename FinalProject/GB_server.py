@@ -44,28 +44,29 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
         print(" arguments: ", end="")
         pprint(parsed_arguments)
 
+        json_parameter = parsed_arguments.get("json", ['0'])
+        rest_request = False
         content_type = "text/html"
+        if json_parameter[0] == "1":
+            rest_request = True
+            content_type = "application/json"
+
         if parsed_path == "/":
             # index.html must be served
             file_to_serve = HTML_FOLDER / "index.html"
-            content_type = "text/html"
             contents = file_to_serve.read_text("utf-8")
         elif parsed_path == "/getSpeciesList":
-            content_type = "text/html"
-            contents = gb_html_handler.getSpeciesList(parsed_arguments)
+            if rest_request:
+                contents = gb_rest_handler.getSpeciesList(parsed_arguments)
+            else:
+                contents = gb_html_handler.getSpeciesList(parsed_arguments)
         elif parsed_path == "/getSeqByLetter":
             file_to_serve = HTML_FOLDER / "test.html"
-            content_type = "text/html"
             contents = file_to_serve.read_text("utf-8")
-        elif parsed_path == "/rest_getSpeciesList":
-            content_type = "application/json"
-            contents = gb_rest_handler.getSpeciesList(parsed_arguments)
         else:
-            if parsed_path.startswith("/rest_"):
-                content_type = "application/json"
+            if rest_request:
                 contents = gb_rest_handler.getWrongRestEndpoint(parsed_path)
             else:
-                content_type = "text/html"
                 # error.html must be served
                 file_to_serve = HTML_FOLDER / "error.html"
                 contents = file_to_serve.read_text("utf-8")
