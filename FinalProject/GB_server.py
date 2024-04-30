@@ -1,4 +1,3 @@
-import json
 from pprint import pprint
 from pathlib import Path
 import termcolor
@@ -65,7 +64,7 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
             contents = file_to_serve.read_text("utf-8")
         elif parsed_path == "/geneSeq":
             if rest_request:
-                contents = gb_rest_handler.getSpeciesList(parsed_arguments)
+                contents = gb_rest_handler.getGeneSeq(parsed_arguments)
             else:
                 contents = gb_html_handler.getGeneSeq(parsed_arguments)
         else:
