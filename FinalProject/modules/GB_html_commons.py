@@ -40,3 +40,7 @@ def build_species_list_page(nb_of_species, limit, species_list):
     return contents
 
 
+def build_gene_seq_page(gene_name, gene_seq):
+    contents = read_html_file("GeneSeq.html").render(context={"gene_name": gene_name, "gene_seq": gene_seq})
+    return contents
+

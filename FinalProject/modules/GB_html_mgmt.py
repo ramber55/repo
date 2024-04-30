@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from pprint import pprint
 
 import GB_html_commons
 import GB_ensembl_client
@@ -24,7 +25,7 @@ class GB_html_handler:
             return contents
 
         if limit < 0:
-            error_message = f"'limit' must be a positive integer number."
+            error_message = "'limit' must be a positive integer number."
             contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
             return contents
 
@@ -52,3 +53,42 @@ class GB_html_handler:
             return contents
 
         return contents
+
+    def getGeneSeq(self, parsed_arguments):
+        if "gene" not in parsed_arguments:
+            error_message = "Gene name must be specified."
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
+            return contents
+
+        friendly_gene_name = parsed_arguments["gene"][0]
+
+        try:
+            ensembl_rest_error, gene_seq = gb_ensembl_handler.get_gene_seq_by_friendly_name(friendly_gene_name)
+        except ConnectionRefusedError:
+            error_message = "Cannot connect to the Server"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+
+        if ensembl_rest_error:
+            error_message = f"{friendly_gene_name} has not be found in Ensembl database"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
+            return contents
+
+        try:
+            contents = GB_html_commons.build_gene_seq_page(friendly_gene_name, gene_seq)
+        except FileNotFoundError:
+            error_message = "GeneSeq.html is not present"
+            error_notes = "Genome Browser installation may be corrupted"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.PAGEFILE_NOTFOUND_ERROR, error_message, error_notes)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+
+        return contents
+
