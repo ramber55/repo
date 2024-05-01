@@ -23,6 +23,11 @@ def list_to_html_list(python_list):
     html_list += "</ul>\n"
     return html_list
 
+def simple_list(python_list):
+    html_list = ""
+    for item in python_list:
+        html_list += f"{item}<br>"
+    return html_list
 
 def build_customized_error_page(error_type, error_message, error_notes=None):
     if error_notes is None:
@@ -51,5 +56,7 @@ def build_chromo_length_page(species, chromo, chromosome_length):
 
 
 def build_karyotype_page(species, karyotype):
-    contents = read_html_file("Karyotype.html").render(context={"species": species, "karyotype": karyotype})
+    karyotype_list = simple_list(karyotype)
+    contents = read_html_file("Karyotype.html").render(context={"species": species, "karyotype": karyotype_list})
     return contents
+

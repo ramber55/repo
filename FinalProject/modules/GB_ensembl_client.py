@@ -112,6 +112,8 @@ class GB_ensembl_handler:
         for item in list:
             if item["name"] == chromo and item["coord_system"] == "chromosome":
                 chromosome_length = item["length"]
+        if chromosome_length == -1:
+            ensembl_rest_error = True
 
         return ensembl_rest_error, chromosome_length
     def get_karyotype(self, friendly_species_name):

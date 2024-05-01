@@ -108,6 +108,11 @@ class GB_html_handler:
             contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
             return contents
 
+        if ensembl_rest_error:
+            error_message = f"Species {species} or Chromosome {chromo} has not been found in Ensembl database"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
+            return contents
+
         try:
             contents = GB_html_commons.build_chromo_length_page(species, chromo, chromosome_length)
         except FileNotFoundError:
@@ -134,6 +139,11 @@ class GB_html_handler:
         except Exception as ex:
             error_message = f"{type(ex)} {sys.exc_info()[0]}"
             contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+
+        if ensembl_rest_error:
+            error_message = f"{species} has not been found in Ensembl database"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
             return contents
 
         try:
