@@ -114,3 +114,13 @@ class GB_ensembl_handler:
                 chromosome_length = item["length"]
 
         return ensembl_rest_error, chromosome_length
+    def get_karyotype(self, friendly_species_name):
+        completed_endpoint = ENDPOINT_INFO_ASSEMBLY + friendly_species_name
+        ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
+
+        if ensembl_rest_error:
+            return ensembl_rest_error, None
+
+        karyotype = rest_response["karyotype"]
+
+        return ensembl_rest_error, karyotype

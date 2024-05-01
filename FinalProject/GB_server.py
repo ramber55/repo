@@ -59,6 +59,12 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
                 contents = gb_rest_handler.getSpeciesList(parsed_arguments)
             else:
                 contents = gb_html_handler.getSpeciesList(parsed_arguments)
+        elif parsed_path == "/karyotype":
+            if rest_request:
+                #contents = gb_rest_handler.getKaryotype(parsed_arguments)
+                pass
+            else:
+                contents = gb_html_handler.getKaryotype(parsed_arguments)
         elif parsed_path == "/chromosomeLength":
             if rest_request:
                 contents = gb_rest_handler.getChromosomeLenght(parsed_arguments)

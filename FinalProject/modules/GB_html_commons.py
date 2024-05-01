@@ -44,6 +44,12 @@ def build_gene_seq_page(gene_name, gene_seq):
     contents = read_html_file("GeneSeq.html").render(context={"gene_name": gene_name, "gene_seq": gene_seq})
     return contents
 
+
 def build_chromo_length_page(species, chromo, chromosome_length):
     contents = read_html_file("ChromosomeLength.html").render(context={"species": species, "chromo": chromo, "chromosome_length": chromosome_length})
+    return contents
+
+
+def build_karyotype_page(species, karyotype):
+    contents = read_html_file("Karyotype.html").render(context={"species": species, "karyotype": karyotype})
     return contents
