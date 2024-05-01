@@ -74,7 +74,7 @@ class GB_html_handler:
             return contents
 
         if ensembl_rest_error:
-            error_message = f"{friendly_gene_name} has not be found in Ensembl database"
+            error_message = f"{friendly_gene_name} has not been found in Ensembl database"
             contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
             return contents
 
