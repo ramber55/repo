@@ -59,9 +59,11 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
                 contents = gb_rest_handler.getSpeciesList(parsed_arguments)
             else:
                 contents = gb_html_handler.getSpeciesList(parsed_arguments)
-        elif parsed_path == "/getSeqByLetter":
-            file_to_serve = HTML_FOLDER / "test.html"
-            contents = file_to_serve.read_text("utf-8")
+        elif parsed_path == "/chromosomeLength":
+            if rest_request:
+                contents = gb_rest_handler.getChromosomeLenght(parsed_arguments)
+            else:
+                contents = gb_html_handler.getChromosomeLenght(parsed_arguments)
         elif parsed_path == "/geneSeq":
             if rest_request:
                 contents = gb_rest_handler.getGeneSeq(parsed_arguments)

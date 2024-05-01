@@ -26,3 +26,9 @@ def build_gene_seq_json_msg(gene_seq):
 
     return json.dumps(response_dict)
 
+
+def build_chromo_length_json_msg(species, chromo, chromosome_length):
+    response_dict = {"species": species, "chromo": chromo, "chromosome_length": chromosome_length}
+
+    return json.dumps(response_dict)
+

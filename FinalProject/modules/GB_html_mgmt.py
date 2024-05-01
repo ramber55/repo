@@ -92,3 +92,41 @@ class GB_html_handler:
 
         return contents
 
+    def getChromosomeLenght(self, parsed_arguments):
+        if "species" not in parsed_arguments:
+            error_message = "Species name must be specified."
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
+            return contents
+
+        if "chromo" not in parsed_arguments:
+            error_message = "Chromosome name must be specified."
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.INPUT_DATA_ERROR, error_message)
+            return contents
+
+        species = parsed_arguments["species"][0]
+        chromo = parsed_arguments["chromo"][0]
+
+        try:
+            ensembl_rest_error, chromosome_length = gb_ensembl_handler.get_chromosome_length(species, chromo)
+        except ConnectionRefusedError:
+            error_message = "Cannot connect to the Server"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+
+        try:
+            contents = GB_html_commons.build_chromo_length_page(species, chromo, chromosome_length)
+        except FileNotFoundError:
+            error_message = "ChromosomeLength.html is not present"
+            error_notes = "Genome Browser installation may be corrupted"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.PAGEFILE_NOTFOUND_ERROR, error_message, error_notes)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = GB_html_commons.build_customized_error_page(GB_html_commons.PAGEFILE_NOTFOUND_ERROR, error_message)
+            return contents
+
+        return contents

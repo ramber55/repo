@@ -8,6 +8,8 @@ PARAMS = "?content-type=application/json"
 
 ENDPOINT_INFO_SPECIES = "/info/species"
 ENDPOINT_GET_GEN_INFO = "/sequence/id/"
+# to get chromosome length and karyotype
+ENDPOINT_INFO_ASSEMBLY = "/info/assembly/"
 # for human genes:
 ENDPOINT_GET_GEN_STABLE_ID = "/lookup/symbol/homo_sapiens/"
 
@@ -98,3 +100,17 @@ class GB_ensembl_handler:
 
         return ensembl_rest_error, seq
 
+    def get_chromosome_length(self, friendly_species_name, chromo):
+        completed_endpoint = ENDPOINT_INFO_ASSEMBLY + friendly_species_name
+        ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
+
+        if ensembl_rest_error:
+            return ensembl_rest_error, None
+
+        list = rest_response["top_level_region"]
+        chromosome_length = -1
+        for item in list:
+            if item["name"] == chromo and item["coord_system"] == "chromosome":
+                chromosome_length = item["length"]
+
+        return ensembl_rest_error, chromosome_length
