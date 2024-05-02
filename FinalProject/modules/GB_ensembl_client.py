@@ -2,6 +2,7 @@ import pprint
 import http.client
 import json
 import termcolor
+from seq1 import *
 
 ENSEMBL_SERVER = "rest.ensembl.org"
 PARAMS = "?content-type=application/json"
@@ -12,6 +13,7 @@ ENDPOINT_GET_GEN_INFO = "/sequence/id/"
 ENDPOINT_INFO_ASSEMBLY = "/info/assembly/"
 # for human genes:
 ENDPOINT_GET_GEN_STABLE_ID = "/lookup/symbol/homo_sapiens/"
+
 
 class GB_ensembl_handler:
     def __init__(self):
@@ -116,6 +118,7 @@ class GB_ensembl_handler:
             ensembl_rest_error = True
 
         return ensembl_rest_error, chromosome_length
+
     def get_karyotype(self, friendly_species_name):
         completed_endpoint = ENDPOINT_INFO_ASSEMBLY + friendly_species_name
         ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
@@ -126,3 +129,17 @@ class GB_ensembl_handler:
         karyotype = rest_response["karyotype"]
 
         return ensembl_rest_error, karyotype
+
+    def get_gene_info_by_friendly_name(self, friendly_gene_name):
+        ensembl_rest_error, stable_id = self.get_gene_stable_id(friendly_gene_name)
+
+        if ensembl_rest_error:
+            return ensembl_rest_error, None
+
+        ensembl_rest_error, seq = self.get_gene_seq_by_stable_id(stable_id)
+        gene_calc = seq.seq_len()
+        gene_bases = seq.percentage_of_bases()
+        if ensembl_rest_error:
+            return ensembl_rest_error, None
+
+        return ensembl_rest_error, gene_calc, gene_bases

@@ -60,3 +60,6 @@ def build_karyotype_page(species, karyotype):
     contents = read_html_file("Karyotype.html").render(context={"species": species, "karyotype": karyotype_list})
     return contents
 
+def build_gene_calc_page(gene_name, gene_calc, gene_bases):
+    contents = read_html_file("GeneCalc.html").render(context={"gene_name": gene_name, "gene_calc": gene_calc, "gene_bases": gene_bases})
+    return contents
