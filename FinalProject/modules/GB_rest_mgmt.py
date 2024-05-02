@@ -98,4 +98,25 @@ class GB_rest_handler:
         contents = GB_rest_commons.build_chromo_length_json_msg(species, chromo, chromosome_length)
 
         return contents
+    def getKaryotype(self, parsed_arguments):
+        if "species" not in parsed_arguments:
+            error_message = "The species must be specified."
+            contents = GB_rest_commons.build_json_error_msg(GB_rest_commons.BAD_PARAMETER, error_message)
+            return contents
+        species = parsed_arguments["species"][0]
+
+        try:
+            ensembl_rest_error, karyotype = gb_ensembl_handler.get_karyotype(species)
+        except ConnectionRefusedError:
+            error_message = "Cannot connect to the Server"
+            contents = GB_rest_commons.build_json_error_msg(GB_rest_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = GB_rest_commons.build_json_error_msg(GB_rest_commons.ENSEMBL_COM_ERROR, error_message)
+            return contents
+
+        contents = GB_rest_commons.build_karyotype_jason_msg(species, karyotype)
+
+        return contents
 

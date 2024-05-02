@@ -32,3 +32,8 @@ def build_chromo_length_json_msg(species, chromo, chromosome_length):
 
     return json.dumps(response_dict)
 
+
+def build_karyotype_jason_msg(species, karyotype):
+    response_dict = {"species": species, "karyotype": karyotype}
+
+    return json.dumps(response_dict)
