@@ -29,6 +29,14 @@ def simple_list(python_list):
         html_list += f"{item}<br>"
     return html_list
 
+def string_from_bases_percentage_dict(percentage_of_each_base):
+    html_list = "<ul>\n"
+    html_list += f"<li>A : {percentage_of_each_base['A']}%</li>\n"
+    html_list += f"<li>C : {percentage_of_each_base['C']}%</li>\n"
+    html_list += f"<li>G : {percentage_of_each_base['G']}%</li>\n"
+    html_list += f"<li>T : {percentage_of_each_base['T']}%</li>\n"
+    html_list += "</ul>\n"
+    return html_list
 
 def build_customized_error_page(error_type, error_message, error_notes=None):
     if error_notes is None:
@@ -62,6 +70,12 @@ def build_karyotype_page(species, karyotype):
     return contents
 
 
-def build_gene_calc_page(gene_name, gene_calc, gene_bases):
-    contents = read_html_file("GeneCalc.html").render(context={"gene_name": gene_name, "gene_calc": gene_calc, "gene_bases": gene_bases})
+def build_gene_info_page(gene_name, stable_id, start, end, length, chromo):
+    contents = read_html_file("GeneInfo.html").render(context={"gene_name": gene_name, "id": stable_id, "start": start, "end": end, "length": length, "chromo": chromo})
+    return contents
+
+
+def build_gene_calc_page(gene_name, gene_len, gene_bases_percentage):
+    html_list = string_from_bases_percentage_dict(gene_bases_percentage)
+    contents = read_html_file("GeneCalc.html").render(context={"gene_name": gene_name, "gene_len": gene_len, "gene_bases_percentage": html_list})
     return contents

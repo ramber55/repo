@@ -116,7 +116,7 @@ class GB_rest_handler:
             contents = GB_rest_commons.build_json_error_msg(GB_rest_commons.ENSEMBL_COM_ERROR, error_message)
             return contents
 
-        contents = GB_rest_commons.build_karyotype_jason_msg(species, karyotype)
+        contents = GB_rest_commons.build_karyotype_json_msg(species, karyotype)
 
         return contents
 

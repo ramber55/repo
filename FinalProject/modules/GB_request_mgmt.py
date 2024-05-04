@@ -1,8 +1,11 @@
 import sys
 from pathlib import Path
 
+from seq1 import Seq
+
 import GB_ensembl_client
 import GB_req_forwarder
+
 
 GBSERVER_DIR = Path.cwd()
 HTML_FOLDER = GBSERVER_DIR / "HTML"
@@ -14,6 +17,11 @@ PAGEFILE_NOTFOUND_ERROR = "A required html file is not found"
 UNKNOWN_ERROR = "Unknown Error"
 WRONG_REST_ENDPOINT = "Wrong Rest Endpoint"
 
+def get_gene_calculations(gene_seq):
+    seq = Seq(gene_seq)
+    gene_len = seq.seq_len()
+    dict_of_bases, percentage_of_each_base = seq.percentage_of_bases()
+    return gene_len, percentage_of_each_base
 
 class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
 
@@ -184,7 +192,7 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
 
         return contents
 
-    def getGeneCalc(self, rest_request, parsed_arguments):
+    def getGeneInfo(self, rest_request, parsed_arguments):
         if "gene" not in parsed_arguments:
             error_message = "Gene name must be specified."
             contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
@@ -193,7 +201,7 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
         friendly_gene_name = parsed_arguments["gene"][0]
 
         try:
-            ensembl_rest_error, gene_seq = self.ensembl_handler.get_gene_info_by_friendly_name(friendly_gene_name)
+            ensembl_rest_error, stable_id, start, end, length, chromo = self.ensembl_handler.get_gene_info(friendly_gene_name)
         except ConnectionRefusedError:
             error_message = "Cannot connect to the Server"
             contents = super().build_error_response(rest_request, ENSEMBL_COMM_ERROR, error_message)
@@ -209,7 +217,47 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
             return contents
 
         try:
-            contents = super().build_gene_calc_response(friendly_gene_name)
+            contents = super().build_gene_info_response(rest_request, friendly_gene_name, stable_id, start, end, length, chromo)
+        except FileNotFoundError:
+            error_message = "GeneInfo.html is not present"
+            error_notes = "Genome Browser installation may be corrupted"
+            contents = super().build_error_response(rest_request, PAGEFILE_NOTFOUND_ERROR, error_message, error_notes)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = super().build_error_response(rest_request, UNKNOWN_ERROR, error_message)
+            return contents
+
+        return contents
+
+    def getGeneCalc(self, rest_request, parsed_arguments):
+        if "gene" not in parsed_arguments:
+            error_message = "Gene name must be specified."
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+
+        friendly_gene_name = parsed_arguments["gene"][0]
+
+        try:
+            ensembl_rest_error, gene_seq = self.ensembl_handler.get_gene_seq_by_friendly_name(friendly_gene_name)
+        except ConnectionRefusedError:
+            error_message = "Cannot connect to the Server"
+            contents = super().build_error_response(rest_request, ENSEMBL_COMM_ERROR, error_message)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = super().build_error_response(rest_request, ENSEMBL_COMM_ERROR, error_message)
+            return contents
+
+        if ensembl_rest_error:
+            error_message = f"{friendly_gene_name} has not been found in Ensembl database"
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+
+        gene_len, gene_bases_percentage = get_gene_calculations(gene_seq)
+
+        try:
+            contents = super().build_gene_calc_response(rest_request, friendly_gene_name, gene_len, gene_bases_percentage)
         except FileNotFoundError:
             error_message = "GeneCalc.html is not present"
             error_notes = "Genome Browser installation may be corrupted"
@@ -221,7 +269,6 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
             return contents
 
         return contents
-
 
     def build_WrongRestEndpoint_rest_msg(self, path):
         rest_request = True

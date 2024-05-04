@@ -130,16 +130,21 @@ class GB_ensembl_handler:
 
         return ensembl_rest_error, karyotype
 
-    def get_gene_info_by_friendly_name(self, friendly_gene_name):
-        ensembl_rest_error, stable_id = self.get_gene_stable_id(friendly_gene_name)
+    def get_gene_info(self, friendly_gene_name):
+        completed_endpoint = ENDPOINT_GET_GEN_STABLE_ID + friendly_gene_name
+        ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
 
-        if ensembl_rest_error:
-            return ensembl_rest_error, None
+        if not ensembl_rest_error:
+            stable_id = rest_response["id"]
+            start = rest_response["start"]
+            end = rest_response["end"]
+            chromo = rest_response["seq_region_name"]
+            length = str(int(end) - int(start))
+        else:
+            stable_id = None
+            start = None
+            end = None
+            chromo = None
+            length = None
 
-        ensembl_rest_error, seq = self.get_gene_seq_by_stable_id(stable_id)
-        gene_calc = seq.seq_len()
-        gene_bases = seq.percentage_of_bases()
-        if ensembl_rest_error:
-            return ensembl_rest_error, None
-
-        return ensembl_rest_error, gene_calc, gene_bases
+        return ensembl_rest_error, stable_id, start, end, length, chromo

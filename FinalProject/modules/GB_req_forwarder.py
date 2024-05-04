@@ -24,7 +24,7 @@ class GB_request_forwarder:
 
     def build_karyotype_response(self, rest_request, species, karyotype):
         if rest_request:
-            return GB_rest_commons.build_karyotype_jason_msg(species, karyotype)
+            return GB_rest_commons.build_karyotype_json_msg(species, karyotype)
         else:
             return GB_html_commons.build_karyotype_page(species, karyotype)
 
@@ -40,9 +40,16 @@ class GB_request_forwarder:
         else:
             return GB_html_commons.build_gene_seq_page(gene_name, gene_seq)
 
-    def build_gene_calc_response(self, rest_request, gene_name, gene_calc, gene_bases):
+    def build_gene_info_response(self, rest_request, gene_name, stable_id, start, end, length, chromo):
         if rest_request:
-            # return GB_rest_commons.build_gene_calc_json_msg(gene_name, gene_calc, gene_bases)
-            pass
+            return GB_rest_commons.build_gene_info_json_msg(stable_id, start, end, length, chromo)
         else:
-            return GB_html_commons.build_gene_calc_page(gene_name, gene_calc, gene_bases)
+            return GB_html_commons.build_gene_info_page(gene_name, stable_id, start, end, length, chromo)
+
+
+    def build_gene_calc_response(self, rest_request, gene_name, gene_len, gene_bases_percentage):
+        if rest_request:
+            return GB_rest_commons.build_gene_calc_json_msg(gene_len, gene_bases_percentage)
+        else:
+            return GB_html_commons.build_gene_calc_page(gene_name, gene_len, gene_bases_percentage)
+
