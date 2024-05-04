@@ -53,6 +53,15 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
             # index.html must be served
             file_to_serve = HTML_FOLDER / "index.html"
             contents = file_to_serve.read_text("utf-8")
+        elif parsed_path == "/favicon.ico":
+            print("hola fondo sur")
+            favicon_path = GBSERVER_DIR / "resources/favicon.ico"
+            self.path = str(favicon_path)
+            self.send_response(200)
+            self.send_header('Content-Type', 'image/x-icon')
+            self.send_header('Content-Length', 0)
+            self.end_headers()
+            return
         elif parsed_path == "/getSpeciesList":
             contents = gb_request_handler.getSpeciesList(rest_request, parsed_arguments)
         elif parsed_path == "/karyotype":
@@ -61,6 +70,8 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
             contents = gb_request_handler.getChromosomeLenght(rest_request, parsed_arguments)
         elif parsed_path == "/geneSeq":
             contents = gb_request_handler.getGeneSeq(rest_request, parsed_arguments)
+        elif parsed_path == "/geneCalc":
+            contents = gb_request_handler.getGeneCalc(rest_request, parsed_arguments)
         else:
             if rest_request:
                 contents = gb_request_handler.build_WrongRestEndpoint_rest_msg(parsed_path)

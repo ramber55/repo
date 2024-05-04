@@ -39,3 +39,10 @@ class GB_request_forwarder:
             return GB_rest_commons.build_gene_seq_json_msg(gene_seq)
         else:
             return GB_html_commons.build_gene_seq_page(gene_name, gene_seq)
+
+    def build_gene_calc_response(self, rest_request, gene_name, gene_calc, gene_bases):
+        if rest_request:
+            # return GB_rest_commons.build_gene_calc_json_msg(gene_name, gene_calc, gene_bases)
+            pass
+        else:
+            return GB_html_commons.build_gene_calc_page(gene_name, gene_calc, gene_bases)

@@ -29,6 +29,7 @@ def simple_list(python_list):
         html_list += f"{item}<br>"
     return html_list
 
+
 def build_customized_error_page(error_type, error_message, error_notes=None):
     if error_notes is None:
         error_notes = ""
@@ -59,6 +60,7 @@ def build_karyotype_page(species, karyotype):
     karyotype_list = simple_list(karyotype)
     contents = read_html_file("Karyotype.html").render(context={"species": species, "karyotype": karyotype_list})
     return contents
+
 
 def build_gene_calc_page(gene_name, gene_calc, gene_bases):
     contents = read_html_file("GeneCalc.html").render(context={"gene_name": gene_name, "gene_calc": gene_calc, "gene_bases": gene_bases})
