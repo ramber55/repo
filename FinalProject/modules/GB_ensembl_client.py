@@ -156,12 +156,9 @@ class GB_ensembl_handler:
             start = rest_response["start"]
             end = rest_response["end"]
             chromo = rest_response["seq_region_name"]
-            length = str(int(end) - int(start))
         else:
-            stable_id = None
             start = None
             end = None
             chromo = None
-            length = None
 
-        return ensembl_rest_error, stable_id, start, end, length, chromo
+        return ensembl_rest_error, start, end, chromo
