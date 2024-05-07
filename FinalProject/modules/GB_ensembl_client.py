@@ -148,3 +148,20 @@ class GB_ensembl_handler:
             length = None
 
         return ensembl_rest_error, stable_id, start, end, length, chromo
+    def get_gene_list(self, friendly_gene_name):
+        completed_endpoint = ENDPOINT_GET_GEN_STABLE_ID + friendly_gene_name
+        ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
+
+        if not ensembl_rest_error:
+            start = rest_response["start"]
+            end = rest_response["end"]
+            chromo = rest_response["seq_region_name"]
+            length = str(int(end) - int(start))
+        else:
+            stable_id = None
+            start = None
+            end = None
+            chromo = None
+            length = None
+
+        return ensembl_rest_error, stable_id, start, end, length, chromo

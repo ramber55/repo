@@ -74,6 +74,8 @@ class GB_Handler(http.server.BaseHTTPRequestHandler):
             contents = gb_request_handler.getGeneInfo(rest_request, parsed_arguments)
         elif parsed_path == "/geneCalc":
             contents = gb_request_handler.getGeneCalc(rest_request, parsed_arguments)
+        elif parsed_path == "/geneList":
+            contents = gb_request_handler.getGeneList(rest_request, parsed_arguments)
         else:
             if rest_request:
                 contents = gb_request_handler.build_WrongRestEndpoint_rest_msg(parsed_path)
