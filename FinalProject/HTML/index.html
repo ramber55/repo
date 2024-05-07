@@ -8,19 +8,19 @@
   <body style="background-color: LightYellow;">
     <h1>Browsing Vertebrates and Human genomes</h1>
     <h2>BASIC, MEDIUM AND ADVANCED Level Services</h2>
-    <hr>
+
     <p>1) List of species in the genome database :</p>
     <form action="getSpeciesList" method="get">
       Limit (0 or empty for no limits) : <input type="text" name="limit">
       <input type="submit" value="Send"/>
     </form>
-    <hr>
+
     <p>2) Information about the karyotype :</p>
     <form action="karyotype" method="get">
       Select the species : <input type="text" name="species">
       <input type="submit" value="Send"/>
     </form>
-    <hr>
+
     <p>3) Chromosome Length :</p>
     <form action="chromosomeLength" method="get">
       <p>Select the species : <input type="text" name="species"></p>
@@ -33,15 +33,21 @@
       Gene : <input type="text" name="gene">
       <input type="submit" value="Send"/>
     </form>
-    <hr>
+
     <p>5) Gene Info :</p>
     <form action="geneInfo" method="get">
       Gene : <input type="text" name="gene">
       <input type="submit" value="Send"/>
     </form>
-    <hr>
+
     <p>6) Gene Calculations :</p>
     <form action="geneCalc" method="get">
+      Gene : <input type="text" name="gene">
+      <input type="submit" value="Send"/>
+    </form>
+
+    <p>7) Gene List :</p>
+    <form action="geneList" method="get">
       Gene : <input type="text" name="gene">
       <input type="submit" value="Send"/>
     </form>
