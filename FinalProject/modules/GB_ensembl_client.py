@@ -148,8 +148,8 @@ class GB_ensembl_handler:
             length = None
 
         return ensembl_rest_error, stable_id, start, end, length, chromo
-    def get_gene_list(self, friendly_gene_name):
-        completed_endpoint = ENDPOINT_GET_GEN_STABLE_ID + friendly_gene_name
+    def get_gene_list(self, friendly_species_name, chromo):
+        completed_endpoint = ENDPOINT_GET_GEN_STABLE_ID + friendly_species_name
         ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
 
         if not ensembl_rest_error:
