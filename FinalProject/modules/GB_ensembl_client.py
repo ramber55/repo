@@ -156,9 +156,15 @@ class GB_ensembl_handler:
             start = rest_response["start"]
             end = rest_response["end"]
             chromo = rest_response["seq_region_name"]
+            genes = rest_response["external_name"]
+            correct_genes_list = []
+            for gene in genes:
+                if not (gene["start"] < start) and gene["end"] > end:
+                    correct_genes_list.append(gene)
         else:
             start = None
             end = None
             chromo = None
+            correct_genes_list = None
 
-        return ensembl_rest_error, start, end, chromo
+        return ensembl_rest_error, start, end, chromo, correct_genes_list

@@ -53,3 +53,8 @@ class GB_request_forwarder:
         else:
             return GB_html_commons.build_gene_calc_page(gene_name, gene_len, gene_bases_percentage)
 
+    def build_gene_list_response(self, rest_request, start, end, chromo, correct_genes_list):
+        if rest_request:
+            return GB_rest_commons.build_gene_list_json_msg(start, end, chromo, correct_genes_list)
+        else:
+            return GB_html_commons.build_gene_list_page(start, end, chromo, correct_genes_list)
