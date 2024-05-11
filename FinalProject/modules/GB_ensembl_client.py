@@ -13,6 +13,7 @@ ENDPOINT_GET_GEN_INFO = "/sequence/id/"
 ENDPOINT_INFO_ASSEMBLY = "/info/assembly/"
 # for human genes:
 ENDPOINT_GET_GEN_STABLE_ID = "/lookup/symbol/homo_sapiens/"
+ENDPOINT_GENE_LIST = "overlap/region/human/"
 
 
 class GB_ensembl_handler:
@@ -148,23 +149,19 @@ class GB_ensembl_handler:
             length = None
 
         return ensembl_rest_error, stable_id, start, end, length, chromo
-    def get_gene_list(self, friendly_species_name, chromo):
-        completed_endpoint = ENDPOINT_GET_GEN_STABLE_ID + friendly_species_name
+
+    def get_gene_list(self, chromo, start, end):
+        completed_endpoint = ENDPOINT_GENE_LIST + chromo + ":" + start + "-" + end
+        print(f"endpoint para el gene list {completed_endpoint}")
         ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
-
+        gene_list = []
         if not ensembl_rest_error:
-            start = rest_response["start"]
-            end = rest_response["end"]
-            chromo = rest_response["seq_region_name"]
-            genes = rest_response["external_name"]
-            correct_genes_list = []
-            for gene in genes:
-                if not (gene["start"] < start) and gene["end"] > end:
-                    correct_genes_list.append(gene)
+            for item_list in rest_response:
+                if "external_name" in item_list:
+                    gene_list.append(item_list["external_name"])
+                else:
+                    gene_list.append(item_list["gene_id"])
         else:
-            start = None
-            end = None
-            chromo = None
-            correct_genes_list = None
+            gene_list = None
 
-        return ensembl_rest_error, start, end, chromo, correct_genes_list
+        return ensembl_rest_error, gene_list
