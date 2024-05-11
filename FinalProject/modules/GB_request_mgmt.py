@@ -270,6 +270,73 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
 
         return contents
 
+    def getGeneList(self, rest_request, parsed_arguments):
+        if "chromo" not in parsed_arguments:
+            error_message = "Chromosomes name must be specified."
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+        if "start" not in parsed_arguments:
+            error_message = "Start must name must be specified."
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+        if "end" not in parsed_arguments:
+            error_message = "End must be specified."
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+
+        chromo = parsed_arguments["chromo"]
+
+        start_int = 0
+        end_int = 0
+        try:
+            start_int = int(parsed_arguments["start"])
+            end_int = int(parsed_arguments["end"])
+        except ValueError:
+            error_message = f"Start ({start_int}) and End ({end_int}) must be integers."
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+
+        if start_int < 0 or end_int < 0:
+            error_message = f"Start ({start_int}) and End ({end_int}) must be positive."
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+
+        if (end_int - start_int) > 5000000:
+            error_message = f"The maximum os number of bases range allowed is 5000000."
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+
+        try:
+            ensembl_rest_error, gene_list = self.ensembl_handler.get_gene_list(chromo, start_int, end_int)
+        except ConnectionRefusedError:
+            error_message = "Cannot connect to the Server"
+            contents = super().build_error_response(rest_request, ENSEMBL_COMM_ERROR, error_message)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = super().build_error_response(rest_request, ENSEMBL_COMM_ERROR, error_message)
+            return contents
+
+        if ensembl_rest_error:
+            error_message = f"{chromo} has not been found in Ensembl database"
+            contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
+            return contents
+
+
+        try:
+            contents = super().build_gene_list_response(rest_request, chromo, start_int, end_int, gene_list)
+        except FileNotFoundError:
+            error_message = "GeneList.html is not present"
+            error_notes = "Genome Browser installation may be corrupted"
+            contents = super().build_error_response(rest_request, PAGEFILE_NOTFOUND_ERROR, error_message, error_notes)
+            return contents
+        except Exception as ex:
+            error_message = f"{type(ex)} {sys.exc_info()[0]}"
+            contents = super().build_error_response(rest_request, UNKNOWN_ERROR, error_message)
+            return contents
+
+        return contents
+
     def build_WrongRestEndpoint_rest_msg(self, path):
         rest_request = True
         error_message = f"Requested endpoint {path} does not exist."

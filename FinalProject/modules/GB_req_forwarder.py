@@ -46,15 +46,15 @@ class GB_request_forwarder:
         else:
             return GB_html_commons.build_gene_info_page(gene_name, stable_id, start, end, length, chromo)
 
-
     def build_gene_calc_response(self, rest_request, gene_name, gene_len, gene_bases_percentage):
         if rest_request:
             return GB_rest_commons.build_gene_calc_json_msg(gene_len, gene_bases_percentage)
         else:
             return GB_html_commons.build_gene_calc_page(gene_name, gene_len, gene_bases_percentage)
 
-    def build_gene_list_response(self, rest_request, start, end, chromo, correct_genes_list):
+    def build_gene_list_response(self, rest_request, chromo, start, end, gene_list):
         if rest_request:
-            return GB_rest_commons.build_gene_list_json_msg(start, end, chromo, correct_genes_list)
+            return GB_rest_commons.build_gene_list_json_msg(gene_list)
         else:
-            return GB_html_commons.build_gene_list_page(start, end, chromo, correct_genes_list)
+            return GB_html_commons.build_gene_list_page(chromo, start, end, gene_list)
+

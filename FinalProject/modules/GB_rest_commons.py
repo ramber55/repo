@@ -38,13 +38,21 @@ def build_karyotype_json_msg(species, karyotype):
 
     return json.dumps(response_dict)
 
+
 def build_gene_info_json_msg(stable_id, start, end, length, chromo):
     response_dict = {"id": stable_id, "start": start, "end": end, "length": length, "chromo": chromo}
 
     return json.dumps(response_dict)
 
+
 def build_gene_calc_json_msg(gene_len, gene_bases_percentage):
     response_dict = {"gene_len": gene_len, "gene_percentages": gene_bases_percentage}
+
+    return json.dumps(response_dict)
+
+
+def build_gene_list_json_msg(gene_list):
+    response_dict = {"gene_list": gene_list}
 
     return json.dumps(response_dict)
 
