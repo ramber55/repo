@@ -6,6 +6,8 @@ from seq1 import *
 
 ENSEMBL_SERVER = "rest.ensembl.org"
 PARAMS = "?content-type=application/json"
+PARAMS_GENE_LIST = "?feature=gene;content-type=application/json"
+
 
 ENDPOINT_INFO_SPECIES = "/info/species"
 ENDPOINT_GET_GEN_INFO = "/sequence/id/"
@@ -20,8 +22,12 @@ class GB_ensembl_handler:
     def __init__(self):
         print("GB_ensemble_client initialized. Server:", ENSEMBL_SERVER)
 
-    def send_request(self, service_endpoint):
-        full_endpoint = service_endpoint + PARAMS
+    def send_request(self, service_endpoint, gene_list=False):
+        if gene_list:
+            full_endpoint = service_endpoint + PARAMS_GENE_LIST
+        else:
+            full_endpoint = service_endpoint + PARAMS
+
         conn = http.client.HTTPConnection(ENSEMBL_SERVER)
 
         # exceptions arisen from request are catched at the calling function:
@@ -150,10 +156,10 @@ class GB_ensembl_handler:
 
         return ensembl_rest_error, stable_id, start, end, length, chromo
 
-    def get_gene_list(self, chromo, start, end):
-        completed_endpoint = ENDPOINT_GENE_LIST + chromo + ":" + start + "-" + end
+    def get_gene_list(self, chromo, start_int, end_int):
+        completed_endpoint = ENDPOINT_GENE_LIST + chromo + ":" + str(start_int) + "-" + str(end_int)
         print(f"endpoint para el gene list {completed_endpoint}")
-        ensembl_rest_error, rest_response = self.send_request(completed_endpoint)
+        ensembl_rest_error, rest_response = self.send_request(completed_endpoint, True)
         gene_list = []
         if not ensembl_rest_error:
             for item_list in rest_response:

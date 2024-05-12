@@ -81,7 +81,7 @@ def build_gene_calc_page(gene_name, gene_len, gene_bases_percentage):
     return contents
 
 
-def build_gene_list_page(start, end, chromo, gene_list):
+def build_gene_list_page(chromo, start, end, gene_list):
     html_list = list_to_html_list(gene_list)
     contents = read_html_file("GeneList.html").render(context={"chromo": chromo, "start": start, "end": end, "gene_list": html_list})
     return contents

@@ -284,13 +284,13 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
             contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
             return contents
 
-        chromo = parsed_arguments["chromo"]
+        chromo = parsed_arguments["chromo"][0]
 
         start_int = 0
         end_int = 0
         try:
-            start_int = int(parsed_arguments["start"])
-            end_int = int(parsed_arguments["end"])
+            start_int = int(parsed_arguments["start"][0])
+            end_int = int(parsed_arguments["end"][0])
         except ValueError:
             error_message = f"Start ({start_int}) and End ({end_int}) must be integers."
             contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
@@ -302,7 +302,7 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
             return contents
 
         if (end_int - start_int) > 5000000:
-            error_message = f"The maximum os number of bases range allowed is 5000000."
+            error_message = f"The maximum number of bases range allowed is 5000000."
             contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
             return contents
 
