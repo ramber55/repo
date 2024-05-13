@@ -58,19 +58,24 @@ class GB_ensembl_handler:
 
         ensembl_list_of_species = ensembl_species["species"]
 
-        limit_to_apply = False
-        if limit != 0:
-            limit_to_apply = True
+        full_list_of_species = []
 
-        list_of_species = []
-        nb_of_species = 0
-        copied_species = 0
         for specie_item in ensembl_list_of_species:
             if specie_item["division"] == "EnsemblVertebrates":
-                nb_of_species += 1
-                if not limit_to_apply or copied_species < limit:
-                    list_of_species.append(specie_item["display_name"])
-                    copied_species += 1
+                full_list_of_species.append(specie_item["display_name"])
+
+        # this is the total number of species in ensembl:
+        nb_of_species = len(full_list_of_species)
+        # gets the ordered list of all species
+        full_list_of_species.sort()
+
+        #takes just limit items from the ordered list (or all of them if limit is 0)
+        list_of_species = []
+        if limit != 0:
+            for i in range(0, limit):
+                list_of_species.append(full_list_of_species[i])
+        else:
+            list_of_species = full_list_of_species
 
         return nb_of_species, list_of_species
 
