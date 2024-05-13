@@ -16,7 +16,7 @@ ENSEMBL_COMM_ERROR = "Communication problems with Ensembl"
 PAGEFILE_NOTFOUND_ERROR = "A required html file is not found"
 UNKNOWN_ERROR = "Unknown Error"
 WRONG_REST_ENDPOINT = "Wrong Rest Endpoint"
-HUMAN_KARYOTYPE = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "X", "Y"]
+HUMAN_KARYOTYPE = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "X", "Y", "MT"]
 
 def get_gene_calculations(gene_seq):
     seq = Seq(gene_seq)
