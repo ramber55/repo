@@ -288,7 +288,7 @@ class GB_request_handler (GB_req_forwarder.GB_request_forwarder):
         chromo = parsed_arguments["chromo"][0]
 
         if chromo not in HUMAN_KARYOTYPE:
-            error_message = f"The chromosome ({chromo}) you entered is not part of the human karyotype, try from 1 to 22, X or Y."
+            error_message = f"The chromosome ({chromo}) you entered is not part of the human karyotype, try from 1 to 22, X, Y or MT."
             contents = super().build_error_response(rest_request, PARAMETER_ERROR, error_message)
             return contents
 
