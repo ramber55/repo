@@ -1,0 +1,45 @@
+* IMPLEMENTED ENDPOINTS
+All the Basic and Medium Level endpoints have been implemented.
+
+/listSpecies - By default, ensembl returns an unordered species list and the order of that list
+seems to change each time it is requested. That makes that if you take just a number of species (according
+to the provided "limit" value), the content of the resulting list is each time different although the
+same "limit" was specified. To prevent this behaviour, the list returned by ensembl is ordered and,
+afterthat, processed to take the first "limit" species. This way, each time a given limit value is
+specified the same species list is returned and, to get a different list, a different "limit" value must be
+specified.
+
+/geneList - if for a returned gene no external_name is found in the answer, its id is taken instead.
+
+
+* IMPLEMENTED INTERFACES
+All the endpoints are provided through both interfaces: HTML and Rest (same URL as for HTML request but with
+parameter json=1).
+
+* ERROR MANAGEMENT
+Errors messages are shown in a html page (for html requests) or json messages (for rest requests).
+
+Following errors are managed through both interfaces (html and rest) providing meaningful info:
+- Wrong page/endpoint requested.
+- Absence of mandatory input parameters (as species in /karyotype, species and chromo in /chromosomeLength, ...)
+- Right syntax in input parameters (as for limit in listSpecies, start and end in geneList,...)
+- Right chromo provided in /geneList (it must be a human chromosome)
+- end-start (base positions) difference greater than the maximum allowed range of 5.000.000 bases in /geneList.
+- Communication Problems with Ensembl server
+- File Not found error for html files.
+- species not found by ensembl in /karyotype
+- species or chromosome not found by ensembl in /chromosomeLength
+- gene not found by ensembl in /geneSeq, /geneInfo and /geneCalc
+
+To improve:
+The system always return 200 OK in the HTTP GET response even when an error has been detected. As the
+info about the error is shown in the html page and returned in the rest json response, it was assumed that
+could be enough. However, it has been observed now (no time to fix it) that when Ensembl detects an error
+it returns error info but also answers with 400 Bad Request. In the same way, commercial html systems, when
+an error happens show an error page but also with 400 or similar.
+
+The error message that Ensembl returns in case of error is not taken from the answer to be showed to the
+user or to be returned in the rest response and it could be very useful. Instead of that it is tried to map
+ensembl errors with the expectable errors. However that may return wrong error messages (just one case dectected:
+in /geneList if MT is specified as chromo and wrong start, end values are provided, the system returns that MT
+was not a valid human chromosome although ensemble returns something like "wrong slice for MT ...").
